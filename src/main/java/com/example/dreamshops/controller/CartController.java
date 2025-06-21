@@ -4,7 +4,6 @@ import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.response.ApiResponse;
 import com.example.dreamshops.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.NotFound;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.dreamshops.model.Cart;

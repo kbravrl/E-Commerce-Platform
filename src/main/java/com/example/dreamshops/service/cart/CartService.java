@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class CartService implements ICartService {
     public void clearCart(Long cartId) {
         Cart cart = getCartById(cartId);
         cartItemRepository.deleteAllByCartId(cartId);
-        cart.getItems().clear();
+        cart.clearCart();
         cartRepository.deleteById(cartId);
     }
 
