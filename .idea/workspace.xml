@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2e2ea792-2502-4adc-a5f8-381982ad40e6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/backend/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/backend/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/DreamShopsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/DreamShopsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/CartItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/CartItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/data/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/data/DataInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/data/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/data/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/CartDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/CartDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/CartItemDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/CartItemDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/ImageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/ImageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/OrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/OrderItemDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/OrderItemDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/ProductDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/enums/OrderStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/enums/OrderStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/exceptions/AlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/exceptions/AlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/exceptions/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/exceptions/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/exceptions/ProductNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/exceptions/ProductNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/exceptions/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/exceptions/ResourceNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/Image.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/CartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/ImageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/ImageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/request/AddProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/request/AddProductRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/request/CreateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/request/CreateUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/request/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/request/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/request/ProductUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/request/ProductUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/request/UserUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/request/UserUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/response/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/response/ApiResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/response/JwtResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/response/JwtResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/security/config/ShopConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/security/config/ShopConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/security/jwt/AuthTokenFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/security/jwt/AuthTokenFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/security/jwt/JwtAuthEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/security/jwt/JwtAuthEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/security/jwt/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/security/jwt/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/security/user/ShopUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/security/user/ShopUserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/security/user/ShopUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/security/user/ShopUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/cart/CartItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/cart/CartItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/cart/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/cart/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/cart/ICartItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/cart/ICartItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/cart/ICartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/cart/ICartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/category/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/category/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/category/ICategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/category/ICategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/image/IImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/image/IImageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/image/ImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/image/ImageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/order/IOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/order/IOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/order/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/order/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/product/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/product/IProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/product/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/product/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/user/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/user/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dreamshops/service/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dreamshops/service/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/dreamshops/DreamShopsApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/dreamshops/DreamShopsApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="workOffline" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2y30exreEiZR9H4xcbSwVX88YCL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_directory_selection": "C:/Users/kubra/OneDrive/Belgeler/dream-shops/dream-shops/src/main/java/com/example/dreamshops",
+    "last_opened_file_path": "C:/Users/kubra/OneDrive/Belgeler/dream-shops/dream-shopsgit",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.dreamshops.data" />
+      <recent name="com.example.dreamshops.dto" />
+      <recent name="com.example.dreamshops.repository" />
+      <recent name="com.example.dreamshops.request" />
+      <recent name="com.example.dreamshops.model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kubra\OneDrive\Belgeler\dream-shops\dream-shopsgit\backend" />
+      <recent name="C:\Users\kubra\OneDrive\Belgeler\dream-shops\dream-shopsgit\client" />
+      <recent name="C:\Users\kubra\OneDrive\Belgeler\dream-shops\dream-shopsgit\src\main\java\com\example\dreamshops" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn install" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="DreamShopsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk-17.0.12" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="dream-shops" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.dreamshops.DreamShopsApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2e2ea792-2502-4adc-a5f8-381982ad40e6" name="Changes" comment="" />
+      <created>1749048050973</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1749048050973</updated>
+      <workItem from="1749048051947" duration="543000" />
+      <workItem from="1749048614549" duration="5068000" />
+      <workItem from="1749056027847" duration="37000" />
+      <workItem from="1749056091189" duration="219000" />
+      <workItem from="1749056342179" duration="929000" />
+      <workItem from="1749072681629" duration="769000" />
+      <workItem from="1749073935208" duration="6344000" />
+      <workItem from="1749080303325" duration="19000" />
+      <workItem from="1749133703524" duration="2402000" />
+      <workItem from="1749136138475" duration="21000" />
+      <workItem from="1749136188223" duration="11371000" />
+      <workItem from="1749163229629" duration="7109000" />
+      <workItem from="1749303723520" duration="5693000" />
+      <workItem from="1749318446845" duration="1509000" />
+      <workItem from="1749319984148" duration="6332000" />
+      <workItem from="1749326415566" duration="4432000" />
+      <workItem from="1749389354888" duration="2000" />
+      <workItem from="1749395543872" duration="11434000" />
+      <workItem from="1749828103625" duration="5682000" />
+      <workItem from="1749833818279" duration="570000" />
+      <workItem from="1749838273638" duration="4608000" />
+      <workItem from="1749909960097" duration="6642000" />
+      <workItem from="1749993430385" duration="51000" />
+      <workItem from="1749993532459" duration="425000" />
+      <workItem from="1749993984530" duration="3840000" />
+      <workItem from="1749997895667" duration="2062000" />
+      <workItem from="1750005039669" duration="1715000" />
+      <workItem from="1750006838449" duration="4665000" />
+      <workItem from="1750014328727" duration="1466000" />
+      <workItem from="1750025776817" duration="3852000" />
+      <workItem from="1750506356915" duration="15302000" />
+      <workItem from="1750524079593" duration="8413000" />
+      <workItem from="1750532578244" duration="3210000" />
+      <workItem from="1750683327017" duration="370000" />
+      <workItem from="1750683978111" duration="318000" />
+      <workItem from="1750685126923" duration="1302000" />
+      <workItem from="1750686506894" duration="288000" />
+      <workItem from="1750687166426" duration="65000" />
+      <workItem from="1750687257158" duration="1244000" />
+      <workItem from="1750688541437" duration="91000" />
+      <workItem from="1750688648950" duration="262000" />
+      <workItem from="1750688932237" duration="453000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.util.PlaceholderResolutionException" package="org.springframework.util" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
