@@ -1,5 +1,5 @@
 import "./Login.css";
-import logo from "../../assets/cart.svg";
+import logo from "../../assets/icons/cart.svg";
 
 const Login = () => {
   return (
