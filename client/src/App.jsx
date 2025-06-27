@@ -1,12 +1,24 @@
-import React from "react";
+import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import Login from "./pages/login/Login";
 import Product from "./pages/product/Product";
+import ProductList from './pages/product/ProductList';
+import Order from './pages/order/Order';
+import Cart from './pages/cart/Cart';
+
 
 const App = () => {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Login />} />
+          <Route path='/products' element={<Product/>} />
+          <Route path='/category/:categoryName' element={<ProductList/>} />
+          <Route path='/orders' element={<Order/>} />
+          <Route path='/cart' element={<Cart/>} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 
