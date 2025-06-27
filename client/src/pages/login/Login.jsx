@@ -1,45 +1,44 @@
 import "./Login.css";
-import logo from "../../assets/icons/cart.svg";
+import cart from "../../assets/icons/cart.svg";
 
 const Login = () => {
   return (
     <div>
-      <form class="form-signin">
-        <div class="text-center mb-4">
-          <img class="mb-4" src={logo} alt={logo} width="72" height="72" />
+      <form className="form-signin">
+        <div className="text-center mb-4">
+          <img className="mb-4" src={cart} alt={cart} width="72" height="72" />
 
-          <h1 class="h3 mb-3 font-weight-normal">Hoşgeldiniz</h1>
-          <p>Alışveriş bir tık öte — stil seninle başlar.</p>
+          <h1 className="h3 mb-3 font-weight-normal">Welcome</h1>
+          <p>
+            Your next favorite find is just a click away — shop smart, live
+            stylish.
+          </p>
         </div>
 
-        <div class="form-label-group mb-2">
-          <label for="inputEmail">Email Adresi</label>
+        <div className="form-label-group mb-2">
+          <label htmlFor="inputEmail">Email Address</label>
           <input
             type="email"
             id="inputEmail"
-            class="form-control"
+            className="form-control"
             placeholder="Email adresi"
             required=""
-            autofocus=""
+            autoFocus=""
           />
         </div>
 
-        <div class="form-label-group mb-2">
-          <label for="inputPassword">Şifre</label>
+        <div className="form-label-group mb-2">
+          <label htmlFor="inputPassword">Password</label>
           <input
             type="password"
             id="inputPassword"
-            class="form-control"
+            className="form-control"
             placeholder="Şifre"
             required=""
           />
         </div>
-        <a
-          class="btn btn-primary"
-          href="http://localhost:5173/products"
-          role="button"
-        >
-          Giriş Yap
+        <a className="btn btn-primary" href="/products" role="button">
+          Login
         </a>
       </form>
     </div>
