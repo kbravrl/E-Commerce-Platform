@@ -1,10 +1,45 @@
-import "./Login.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import cart from "../../assets/icons/cart.svg";
+import "./Login.css";
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      alert("All fields are required!");
+    }
+
+    try {
+      axios
+        .post(`${baseUrl}/auth/login`, {
+          email,
+          password,
+        })
+        .then((response) => {
+          const token = response.data.data.token;
+          localStorage.setItem("token", token);
+        });
+
+      navigate("/products");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("Incorrect email or password.");
+      }
+    }
+  };
+
   return (
     <div>
-      <form className="form-signin">
+      <form className="form-signin" onSubmit={handleSubmit}>
         <div className="text-center mb-4">
           <img className="mb-4" src={cart} alt={cart} width="72" height="72" />
 
@@ -24,6 +59,7 @@ const Login = () => {
             placeholder="Email adresi"
             required=""
             autoFocus=""
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -35,11 +71,12 @@ const Login = () => {
             className="form-control"
             placeholder="Şifre"
             required=""
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <a className="btn btn-primary" href="/products" role="button">
+        <button type="submit" className="btn btn-primary w-100 mt-3">
           Login
-        </a>
+        </button>
       </form>
     </div>
   );
