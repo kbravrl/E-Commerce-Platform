@@ -4,9 +4,11 @@ import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.model.Cart;
 import com.example.dreamshops.model.CartItem;
 import com.example.dreamshops.model.Product;
+import com.example.dreamshops.model.User;
 import com.example.dreamshops.repository.CartItemRepository;
 import com.example.dreamshops.repository.CartRepository;
 import com.example.dreamshops.service.product.IProductService;
+import com.example.dreamshops.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class CartItemService implements ICartItemService {
     private final CartRepository cartRepository;
     private final IProductService productService;
     private final ICartService cartService;
+    private final IUserService userService;
 
     @Override
     public CartItem getCartItem(Long cartId, Long productId) {
@@ -61,9 +64,10 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void removeItemFromCart(Long cartId, Long productId) {
-        Cart cart = cartService.getCartById(cartId);
-        CartItem itemToRemove = getCartItem(cartId, productId);
+    public void removeItemFromCart(Long productId) {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartService.getCartByUserId(user.getId());
+        CartItem itemToRemove = getCartItem(cart.getId(), productId);
         cart.removeItem(itemToRemove);
         cartRepository.save(cart);
 

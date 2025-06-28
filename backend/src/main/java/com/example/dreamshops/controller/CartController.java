@@ -1,8 +1,10 @@
 package com.example.dreamshops.controller;
 
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
+import com.example.dreamshops.model.User;
 import com.example.dreamshops.response.ApiResponse;
 import com.example.dreamshops.service.cart.ICartService;
+import com.example.dreamshops.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +19,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("${api.prefix}/carts")
 public class CartController {
     private final ICartService cartService;
+    private final IUserService userService;
 
-    @GetMapping("/{cardId}")
-    public ResponseEntity<ApiResponse> getCart(@PathVariable Long cardId) {
+    @GetMapping
+    public ResponseEntity<ApiResponse> getCart() {
         try {
-            Cart cart = cartService.getCartById(cardId);
+            User user = userService.getAuthenticatedUser();
+            Cart cart = cartService.getCartByUserId(user.getId());
             return ResponseEntity.ok(new ApiResponse("Cart fetched successfully", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch cart: " + e.getMessage(), null));
