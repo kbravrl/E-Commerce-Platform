@@ -142,11 +142,7 @@ const Navbar = () => {
                 </a>
               </li>{" "}
               <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/user"
-                  aria-label="Cart"
-                >
+                <a className="nav-link" href="/user" aria-label="Cart">
                   <img src={person} alt={person} width="25" height="25" />
                 </a>
               </li>{" "}
