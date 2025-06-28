@@ -2,31 +2,51 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
 import CartItem from "../../components/CartItem";
+import CartTotalPanel from "../../components/CartTotalPanel";
 import "./Cart.css";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const shipping = 20.0;
+
   const token = localStorage.getItem("token");
-  useEffect(() => {
+  const fetchCart = () => {
     axios
-      .get(
-        `${baseUrl}/carts`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        })
+      .get(`${baseUrl}/carts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
       .then((response) => {
-        console.log(response.data.data.items);
+        setTotalAmount(response.data.data.totalAmount);
         setCartItems(response.data.data.items);
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  useEffect(() => {
+    fetchCart();
   }, [token]);
+
+  const handleRemove = async (productId) => {
+    try {
+      await axios.delete(`${baseUrl}/cartItems/item/${productId}/remove`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setCartItems((prev) =>
+        prev.filter((item) => item.product.id !== productId)
+      );
+    } catch (error) {
+      alert("Item could not be removed", error);
+    }
+  };
 
   return (
     <>
@@ -39,35 +59,17 @@ const Cart = () => {
                 <h4 className="mb-0">Shopping Cart</h4>
               </div>
               <div className="d-flex flex-column gap-3">
-                {cartItems.map(cartItem => (<CartItem key={cartItem.id} item={cartItem}/>))}
+                {cartItems.map((cartItem) => (
+                  <CartItem
+                    key={cartItem.id}
+                    item={cartItem}
+                    onRemove={handleRemove}
+                    onQuantityChange={fetchCart}
+                  />
+                ))}
               </div>
             </div>
-            <div className="col-lg-4">
-              <div className="summary-card p-4 shadow-sm">
-                <h5 className="mb-4">Order Summary</h5>
-                <div className="d-flex justify-content-between mb-3">
-                  <span className="text-muted">Subtotal</span>
-                  <span>$479.97</span>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <span className="text-muted">Shipping</span>
-                  <span>$5.00</span>
-                </div>
-                <hr />
-                <div className="d-flex justify-content-between mb-4">
-                  <span className="fw-bold">Total</span>
-                  <span className="fw-bold">$458.97</span>
-                </div>
-                <br />
-                <button className="btn btn-primary checkout-btn w-100 mb-3">
-                  Proceed to Checkout
-                </button>
-                <div className="d-flex justify-content-center gap-2">
-                  <i className="bi bi-shield-check text-success"></i>
-                  <small className="text-muted">Secure checkout</small>
-                </div>
-              </div>
-            </div>
+            <CartTotalPanel shipping={shipping} cartTotalAmount={totalAmount} />
           </div>
         </div>
       </div>
