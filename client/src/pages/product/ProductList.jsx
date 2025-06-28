@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "..//../components/Navbar";
-import Card from "../../components/Card";
+import Card from "../../components/ProductCard";
 import "./Product.css"
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;

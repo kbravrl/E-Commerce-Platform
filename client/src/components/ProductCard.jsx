@@ -1,29 +1,4 @@
-import axios from "axios";
-
-const Cart = ({ product }) => {
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
-  const handleAddToCart = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${baseUrl}/cartItems/add?productId=${product.id}&quantity=${1}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials : true
-        }
-      )
-      .then(() => {
-        alert("Product added to cart");
-      })
-      .catch((error) => {
-        console.error("An error occurred:", error);
-      });
-  };
+const ProductCard = ({ product , handleAddToCart}) => {
 
   return (
     <>
@@ -43,7 +18,7 @@ const Cart = ({ product }) => {
             <p className="card-text">{product.description}</p>
             <div className="d-flex justify-content-between align-items-center">
               <span className="h5 mb-0">{product.price}$</span>
-              <button className="btn btn-outline-primary" onClick={handleAddToCart}>
+              <button className="btn btn-outline-primary" onClick={() => handleAddToCart(product.id)}>
                 <i className="bi bi-cart-plus"></i> Add to cart
               </button>
             </div>
@@ -54,4 +29,4 @@ const Cart = ({ product }) => {
   );
 };
 
-export default Cart;
+export default ProductCard;
