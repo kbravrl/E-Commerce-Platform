@@ -27,10 +27,7 @@ public class CartItemController {
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
-            User user = userService.getAuthenticatedUser();
-            Cart cart = cartService.initializeNewCart(user);
-
-            cartItemService.addItemToCart(cart.getId(), productId, quantity);
+            cartItemService.addItemToCart(productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Cart item added successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error adding cart item: " + e.getMessage(), null));
