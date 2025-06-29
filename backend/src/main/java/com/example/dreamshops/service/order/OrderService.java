@@ -30,7 +30,7 @@ public class OrderService implements IOrderService {
 
     @Transactional
     @Override
-    public Order placeOrder(Long userId) {
+    public Order placeOrder() {
         Cart cart = cartService.getCart();
         Order order = createOrder(cart);
         List<OrderItem> orderItems = createOrderItems(order, cart);

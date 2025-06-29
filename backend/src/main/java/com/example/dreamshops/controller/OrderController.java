@@ -19,13 +19,11 @@ import java.util.List;
 @RequestMapping("${api.prefix}/orders")
 public class OrderController {
     private final IOrderService orderService;
-    private final IUserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId) {
+    public ResponseEntity<ApiResponse> createOrder() {
         try {
-            User user = userService.getAuthenticatedUser();
-            Order order = orderService.placeOrder(user.getId());
+            Order order = orderService.placeOrder();
             OrderDto orderDto = orderService.convertToDto(order);
             return ResponseEntity.ok(new ApiResponse("Order created successfully", orderDto));
         } catch (Exception e) {
@@ -43,7 +41,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/user/{userId}/")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
         try {
             List<OrderDto> orders = orderService.getUserOrders(userId);
