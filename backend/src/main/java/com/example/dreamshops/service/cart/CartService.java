@@ -5,6 +5,7 @@ import com.example.dreamshops.model.Cart;
 import com.example.dreamshops.model.User;
 import com.example.dreamshops.repository.CartItemRepository;
 import com.example.dreamshops.repository.CartRepository;
+import com.example.dreamshops.service.user.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class CartService implements ICartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final IUserService userService;
 
     @Override
     public Cart getCartById(Long cartId) {
@@ -30,11 +32,12 @@ public class CartService implements ICartService {
 
     @Transactional
     @Override
-    public void clearCart(Long cartId) {
-        Cart cart = getCartById(cartId);
-        cartItemRepository.deleteAllByCartId(cartId);
+    public void clearCart() {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = getCartByUserId(user.getId());
+        cartItemRepository.deleteAllByCartId(cart.getId());
         cart.clearCart();
-        cartRepository.deleteById(cartId);
+        cartRepository.deleteById(cart.getId());
     }
 
     @Override
@@ -56,6 +59,5 @@ public class CartService implements ICartService {
     @Override
     public Cart getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
-
     }
 }
