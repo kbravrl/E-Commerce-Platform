@@ -25,7 +25,7 @@ public class OrderController {
         try {
             Order order = orderService.placeOrder();
             OrderDto orderDto = orderService.convertToDto(order);
-            return ResponseEntity.ok(new ApiResponse("Order created successfully", orderDto));
+            return ResponseEntity.ok(new ApiResponse("Order created successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to create order: " + e.getMessage(), null));
         }
@@ -41,10 +41,10 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/user/{userId}/")
-    public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
+    @GetMapping
+    public ResponseEntity<ApiResponse> getUserOrders() {
         try {
-            List<OrderDto> orders = orderService.getUserOrders(userId);
+            List<OrderDto> orders = orderService.getUserOrders();
             return ResponseEntity.ok(new ApiResponse("User orders retrieved successfully", orders));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("No orders found for user: " + e.getMessage(), null));

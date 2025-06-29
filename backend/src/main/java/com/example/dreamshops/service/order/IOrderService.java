@@ -7,7 +7,7 @@ import java.util.List;
 public interface IOrderService {
     Order placeOrder();
     OrderDto getOrderById(Long orderId);
-    List<OrderDto> getUserOrders(Long userId);
+    List<OrderDto> getUserOrders();
 
     OrderDto convertToDto(Order order);
 }

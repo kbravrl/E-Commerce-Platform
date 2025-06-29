@@ -3,12 +3,10 @@ package com.example.dreamshops.service.order;
 import com.example.dreamshops.dto.OrderDto;
 import com.example.dreamshops.enums.OrderStatus;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
-import com.example.dreamshops.model.Cart;
-import com.example.dreamshops.model.Order;
-import com.example.dreamshops.model.OrderItem;
-import com.example.dreamshops.model.Product;
+import com.example.dreamshops.model.*;
 import com.example.dreamshops.repository.OrderRepository;
 import com.example.dreamshops.repository.ProductRepository;
+import com.example.dreamshops.service.user.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,6 +25,7 @@ public class OrderService implements IOrderService {
     private final CartService cartService;
     private final ModelMapper mabelMapper;
     private final ProductRepository productRepository;
+    private final IUserService userService;
 
     @Transactional
     @Override
@@ -80,8 +79,9 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public List<OrderDto> getUserOrders(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders() {
+        User user = userService.getAuthenticatedUser();
+        List<Order> orders = orderRepository.findByUserId(user.getId());
         return orders.stream().map(this:: convertToDto).toList();
     }
 
