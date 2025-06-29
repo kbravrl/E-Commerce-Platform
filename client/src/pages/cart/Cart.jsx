@@ -10,7 +10,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-  const shipping = 20.0;
+  const [shipping, setShipping] = useState(0.0);
 
   const token = localStorage.getItem("token");
   const fetchCart = () => {
@@ -26,6 +26,8 @@ const Cart = () => {
 
         setCartItems(cartData?.items || []);
         setTotalAmount(cartData?.totalAmount ?? 0);
+        setShipping(cartData?.items?.length > 0 ? 20 : 0);
+
       })
       .catch((error) => {
         console.error(error);
@@ -59,7 +61,6 @@ const Cart = () => {
         },
         withCredentials: true,
       });
-
       fetchCart();
     } catch (error) {
       console.error("Cart could not be cleared", error);
