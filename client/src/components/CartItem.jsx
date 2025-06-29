@@ -6,6 +6,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const CartItem = ({ item, onRemove, onQuantityChange }) => {
   const [quantity, setQuantity] = useState(item.quantity);
+  
   const token = localStorage.getItem("token");
 
   const updateQuantity = async (delta) => {

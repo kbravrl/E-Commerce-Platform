@@ -40,9 +40,7 @@ const Cart = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setCartItems((prev) =>
-        prev.filter((item) => item.product.id !== productId)
-      );
+      fetchCart();
     } catch (error) {
       alert("Item could not be removed", error);
     }
