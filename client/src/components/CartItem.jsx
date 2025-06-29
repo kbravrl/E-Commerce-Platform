@@ -4,7 +4,7 @@ import trashIcon from "../assets/icons/trash.svg";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-const CartItem = ({ item, onRemove, onQuantityChange }) => {
+const CartItem = ({ item, onRemove, handleQuantityChange }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   
   const token = localStorage.getItem("token");
@@ -21,7 +21,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }) => {
         }
       );
       setQuantity(newQuantity);
-      onQuantityChange();
+      handleQuantityChange();
     } catch (error) {
       console.error("Quantity update failed:", error);
     }

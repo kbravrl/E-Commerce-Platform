@@ -1,4 +1,4 @@
-const CartTotalPanel = ({cartTotalAmount, shipping}) => {
+const CartTotalPanel = ({cartTotalAmount, shipping, handleCheckout}) => {
   return (
     <>
       <div className="col-lg-4">
@@ -18,7 +18,7 @@ const CartTotalPanel = ({cartTotalAmount, shipping}) => {
             <span className="fw-bold">{cartTotalAmount + shipping}</span>
           </div>
           <br />
-          <button className="btn btn-primary checkout-btn w-100 mb-3">
+          <button className="btn btn-primary checkout-btn w-100 mb-3" onClick={handleCheckout}>
             Proceed to Checkout
           </button>
           <div className="d-flex justify-content-center gap-2">

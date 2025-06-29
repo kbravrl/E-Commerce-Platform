@@ -13,6 +13,7 @@ const Cart = () => {
   const [shipping, setShipping] = useState(0.0);
 
   const token = localStorage.getItem("token");
+  
   const fetchCart = () => {
     axios
       .get(`${baseUrl}/carts`, {
@@ -68,6 +69,23 @@ const Cart = () => {
     }
   };
 
+  const handleCheckout = async () => {
+  try {
+    await axios.post(`${baseUrl}/orders/create`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    alert("Order created successfully!");
+    fetchCart();
+  } catch (error) {
+    console.error("Order creation failed:", error);
+    alert("Order could not be created.");
+  }
+};
+
+
   return (
     <>
       <Navbar />
@@ -84,7 +102,7 @@ const Cart = () => {
                     key={cartItem.id}
                     item={cartItem}
                     onRemove={handleRemove}
-                    onQuantityChange={fetchCart}
+                    handleQuantityChange={fetchCart}
                   />
                 ))}
               </div>
@@ -98,7 +116,7 @@ const Cart = () => {
                 </button>
               </div>
             </div>
-            <CartTotalPanel shipping={shipping} cartTotalAmount={totalAmount} />
+            <CartTotalPanel shipping={shipping} cartTotalAmount={totalAmount} handleCheckout={handleCheckout}/>
           </div>
         </div>
       </div>
