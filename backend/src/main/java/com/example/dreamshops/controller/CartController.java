@@ -24,8 +24,7 @@ public class CartController {
     @GetMapping
     public ResponseEntity<ApiResponse> getCart() {
         try {
-            User user = userService.getAuthenticatedUser();
-            Cart cart = cartService.getCartByUserId(user.getId());
+            Cart cart = cartService.getCart();
             return ResponseEntity.ok(new ApiResponse("Cart fetched successfully", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch cart: " + e.getMessage(), null));
@@ -43,10 +42,10 @@ public class CartController {
 
     }
 
-    @GetMapping("/{cardId}/total-price")
-    public ResponseEntity<ApiResponse> getTotalAmount(@PathVariable Long cardId) {
+    @GetMapping("/total-price")
+    public ResponseEntity<ApiResponse> getTotalAmount() {
         try {
-            BigDecimal totalPrice = cartService.getTotalPrice(cardId);
+            BigDecimal totalPrice = cartService.getTotalPrice();
             return ResponseEntity.ok(new ApiResponse("Total price: ", totalPrice));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch total price: " + e.getMessage(), null));
