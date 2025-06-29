@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import cart from "../../assets/icons/cart.svg";
+import LogoHeader from "../../components/LogoHeader"; 
+import InputField from "../../components/InputField";
 import "./Login.css";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -40,40 +41,9 @@ const Login = () => {
   return (
     <div>
       <form className="form-signin" onSubmit={handleSubmit}>
-        <div className="text-center mb-4">
-          <img className="mb-4" src={cart} alt={cart} width="72" height="72" />
-
-          <h1 className="h3 mb-3 font-weight-normal">Welcome</h1>
-          <p>
-            Your next favorite find is just a click away — shop smart, live
-            stylish.
-          </p>
-        </div>
-
-        <div className="form-label-group mb-2">
-          <label htmlFor="inputEmail">Email Address</label>
-          <input
-            type="email"
-            id="inputEmail"
-            className="form-control"
-            placeholder="Email adresi"
-            required=""
-            autoFocus=""
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="form-label-group mb-2">
-          <label htmlFor="inputPassword">Password</label>
-          <input
-            type="password"
-            id="inputPassword"
-            className="form-control"
-            placeholder="Şifre"
-            required=""
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <LogoHeader />
+        <InputField id={"inputEmail"} label={"Email Address"} type={"email"} placeholder={"username"} onChange={(e) => setEmail(e.target.value)}/>
+        <InputField id={"inputPassword"} label={"Password"} type={"password"} placeholder={"passport"} onChange={(e) => setPassword(e.target.value)}/>
         <button type="submit" className="btn btn-primary w-100 mt-3">
           Login
         </button>
