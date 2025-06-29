@@ -2,9 +2,11 @@ package com.example.dreamshops.controller;
 
 import com.example.dreamshops.dto.OrderDto;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
+import com.example.dreamshops.model.User;
 import com.example.dreamshops.response.ApiResponse;
 import com.example.dreamshops.service.order.IOrderService;
 import com.example.dreamshops.model.Order;
+import com.example.dreamshops.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,13 @@ import java.util.List;
 @RequestMapping("${api.prefix}/orders")
 public class OrderController {
     private final IOrderService orderService;
+    private final IUserService userService;
 
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId) {
         try {
-            Order order = orderService.placeOrder(userId);
+            User user = userService.getAuthenticatedUser();
+            Order order = orderService.placeOrder(user.getId());
             OrderDto orderDto = orderService.convertToDto(order);
             return ResponseEntity.ok(new ApiResponse("Order created successfully", orderDto));
         } catch (Exception e) {
@@ -39,7 +43,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
         try {
             List<OrderDto> orders = orderService.getUserOrders(userId);
