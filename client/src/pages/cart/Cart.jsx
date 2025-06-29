@@ -22,8 +22,10 @@ const Cart = () => {
         withCredentials: true,
       })
       .then((response) => {
-        setTotalAmount(response.data.data.totalAmount);
-        setCartItems(response.data.data.items);
+        const cartData = response.data?.data;
+
+        setCartItems(cartData?.items || []);
+        setTotalAmount(cartData?.totalAmount ?? 0);
       })
       .catch((error) => {
         console.error(error);
@@ -46,6 +48,25 @@ const Cart = () => {
     }
   };
 
+  const handleClearCart = async () => {
+    if (!window.confirm("Are you sure you want to clear the cart?")) {
+      return;
+    }
+    try {
+      await axios.delete(`${baseUrl}/carts/clear`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+
+      fetchCart();
+    } catch (error) {
+      console.error("Cart could not be cleared", error);
+      alert("Cart could not be cleared");
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -65,6 +86,15 @@ const Cart = () => {
                     onQuantityChange={fetchCart}
                   />
                 ))}
+              </div>
+              <div className="text-start mt-2">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleClearCart}
+                >
+                  Clean Cart
+                </button>
               </div>
             </div>
             <CartTotalPanel shipping={shipping} cartTotalAmount={totalAmount} />
