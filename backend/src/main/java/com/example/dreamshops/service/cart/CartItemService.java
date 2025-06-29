@@ -24,8 +24,8 @@ public class CartItemService implements ICartItemService {
     private final IUserService userService;
 
     @Override
-    public CartItem getCartItem(Long cartId, Long productId) {
-        Cart cart = cartService.getCartById(cartId);
+    public CartItem getCartItem(Long productId) {
+        Cart cart = cartService.getCart();
         return cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
@@ -41,8 +41,7 @@ public class CartItemService implements ICartItemService {
         // Check if the product already in the cart
         // If it exists, update the quantity
         // If it does not exist, initiate a new CartItem entry.
-        User user = userService.getAuthenticatedUser();
-        Cart cart = cartService.getCartByUserId(user.getId());
+        Cart cart = cartService.getCart();
         Product product = productService.getProductById(productId);
         CartItem cartItem = cart.getItems()
                 .stream()
@@ -66,9 +65,8 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public void removeItemFromCart(Long productId) {
-        User user = userService.getAuthenticatedUser();
-        Cart cart = cartService.getCartByUserId(user.getId());
-        CartItem itemToRemove = getCartItem(cart.getId(), productId);
+        Cart cart = cartService.getCart();
+        CartItem itemToRemove = getCartItem(productId);
         cart.removeItem(itemToRemove);
         cartRepository.save(cart);
 
@@ -76,8 +74,7 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public void updateItemQuantity(Long productId, int quantity) {
-        User user = userService.getAuthenticatedUser();
-        Cart cart = cartService.getCartByUserId(user.getId());
+        Cart cart = cartService.getCart();
         cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
