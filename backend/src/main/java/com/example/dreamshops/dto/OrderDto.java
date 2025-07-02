@@ -1,18 +1,20 @@
 package com.example.dreamshops.dto;
 
+import com.example.dreamshops.enums.OrderStatus;
+import jakarta.persistence.criteria.Order;
 import lombok.Data;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 public class OrderDto {
     private Long id;
     private Long userId;
-    private LocalDateTime orderDate;
+    private LocalDate orderDate;
+    private LocalDate estimatedDeliveryDate;
     private BigDecimal totalAmount;
-    private String status;
+    private String statusDisplayName;
     private List<OrderItemDto> items;
 
 }

@@ -46,6 +46,7 @@ public class OrderService implements IOrderService {
         order.setUser(cart.getUser());
         order.setOrderStatus(OrderStatus.PENDING);
         order.setOrderDate(LocalDate.now());
+        order.setEstimatedDeliveryDate(LocalDate.now().plusDays(7));
         return order;
     }
 

@@ -10,12 +10,12 @@ const OrderSummary = ({ orderSummary }) => {
         <div className="col-md-3 mb-2">
           <strong>Status:</strong>
           <br />
-          {orderSummary.status}
+          {orderSummary.statusDisplayName}
         </div>
         <div className="col-md-3 mb-2">
           <strong>Estimated Delivery:</strong>
           <br />
-          {orderSummary.orderDate}
+          {orderSummary.estimatedDeliveryDate}
         </div>
         <div className="col-md-3 mb-2">
           <strong>Total Amount</strong>
