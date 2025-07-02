@@ -4,13 +4,13 @@
   padding: 40px 0;
 }
 
-.product-card {
+.card-item {
   background: white;
   border-radius: 12px;
   transition: transform 0.2s;
 }
 
-.product-card:hover {
+.card-item:hover {
   transform: translateY(-2px);
 }
 
@@ -21,7 +21,7 @@
   border-radius: 6px;
 }
 
-.product-image {
+.card-image {
   width: 100px;
   height: 100px;
   object-fit: cover;
@@ -59,12 +59,12 @@
 .quantity-btn {
   width: 28px;
   height: 28px;
-  padding: 0;
+  padding: 3px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background: #f3f4f6;
+  background: #ffffff;
   border: none;
   transition: all 0.2s;
 }

@@ -29,13 +29,13 @@ const CartItem = ({ item, onRemove, handleQuantityChange }) => {
 
   return (
     <>
-      <div className="product-card p-3 shadow-sm">
+      <div className="card-item p-3 shadow-sm">
         <div className="row align-items-center">
           <div className="col-md-2">
             <img
               src={`http://localhost:9191${item.product.images[0].downloadUrl}`}
               alt={item.product.name}
-              className="product-image"
+              className="card-image"
             />
           </div>
           <div className="col-md-4">
