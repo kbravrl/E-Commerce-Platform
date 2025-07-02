@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
-import OrderSummaryDetails from "../../components/OrderDetails";
+import OrderDetails from "../../components/OrderDetails";
+import "./Order.css";
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Order = () => {
-  const [orderSummaryDetails, setOrderSummaryDetails] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const Order = () => {
       })
       .then((res) => {
         console.log(res.data.data);
-        setOrderSummaryDetails(res.data.data);
+        setOrderDetails(res.data.data);
       })
       .catch((err) => {
         console.error("Siparişler alınamadı:", err);
@@ -27,9 +28,9 @@ const Order = () => {
   return (
     <>
       <Navbar />
-      {orderSummaryDetails.map((orderSummary) => (
+      {orderDetails.map((orderSummary) => (
         <div key={orderSummary.id} className="card-body">
-          <OrderSummaryDetails orderSummary={orderSummary} />
+          <OrderDetails orderSummary={orderSummary} />
         </div>
       ))}
     </>

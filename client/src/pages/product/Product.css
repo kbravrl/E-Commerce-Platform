@@ -1,9 +1,9 @@
-.card-img-top {
+.product-card .card-img-top {
     height: 200px;
     object-fit: cover;
 }
 
-.card:hover {
+.product-card .card:hover {
     transform: scale(1.05);
     transition: transform 0.3s ease-in-out;
 }

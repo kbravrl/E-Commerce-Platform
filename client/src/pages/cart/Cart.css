@@ -54,6 +54,7 @@
 
 .remove-btn:hover {
   color: #991b1b;
+  transform: scale(1.05);
 }
 
 .quantity-btn {
