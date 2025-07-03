@@ -21,11 +21,10 @@ public class CartItemService implements ICartItemService {
     private final CartRepository cartRepository;
     private final IProductService productService;
     private final ICartService cartService;
-    private final IUserService userService;
 
     @Override
-    public CartItem getCartItem(Long productId) {
-        Cart cart = cartService.getCart();
+    public CartItem getCartItem(Long userId, Long productId) {
+        Cart cart = cartService.getCartByUserId(userId);
         return cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
@@ -35,13 +34,13 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void addItemToCart(Long productId, int quantity) {
+    public void addItemToCart(Long userId,Long productId, int quantity) {
         // Get the cart
         // Get the product
         // Check if the product already in the cart
         // If it exists, update the quantity
         // If it does not exist, initiate a new CartItem entry.
-        Cart cart = cartService.getCart();
+        Cart cart = cartService.getCartByUserId(userId);
         Product product = productService.getProductById(productId);
         CartItem cartItem = cart.getItems()
                 .stream()
@@ -64,17 +63,17 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void removeItemFromCart(Long productId) {
-        Cart cart = cartService.getCart();
-        CartItem itemToRemove = getCartItem(productId);
+    public void removeItemFromCart(Long userId, Long productId) {
+        Cart cart = cartService.getCartByUserId(userId);
+        CartItem itemToRemove = getCartItem(userId, productId);
         cart.removeItem(itemToRemove);
         cartRepository.save(cart);
 
     }
 
     @Override
-    public void updateItemQuantity(Long productId, int quantity) {
-        Cart cart = cartService.getCart();
+    public void updateItemQuantity(Long userId, Long productId, int quantity) {
+        Cart cart = cartService.getCartByUserId(userId);
         cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))

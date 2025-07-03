@@ -27,7 +27,8 @@ public class CartItemController {
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
-            cartItemService.addItemToCart(productId, quantity);
+            User user = userService.getAuthenticatedUser();
+            cartItemService.addItemToCart(user.getId(), productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Cart item added successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error adding cart item: " + e.getMessage(), null));
@@ -39,7 +40,8 @@ public class CartItemController {
     @DeleteMapping("/item/{productId}/remove")
     public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable Long productId) {
         try {
-            cartItemService.removeItemFromCart(productId);
+            User user = userService.getAuthenticatedUser();
+            cartItemService.removeItemFromCart(user.getId(), productId);
             return ResponseEntity.ok(new ApiResponse("Cart item removed successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error removing cart item: " + e.getMessage(), null));
@@ -50,7 +52,8 @@ public class CartItemController {
     public ResponseEntity<ApiResponse> updateItemQuantity(@PathVariable Long productId,
                                                           @RequestParam int quantity) {
         try {
-            cartItemService.updateItemQuantity(productId, quantity);
+            User user = userService.getAuthenticatedUser();
+            cartItemService.updateItemQuantity(user.getId(), productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Cart item quantity updated successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error updating cart item quantity: " + e.getMessage(), null));

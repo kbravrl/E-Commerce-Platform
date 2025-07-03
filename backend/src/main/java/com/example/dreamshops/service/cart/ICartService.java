@@ -6,8 +6,8 @@ import com.example.dreamshops.model.User;
 import java.math.BigDecimal;
 
 public interface ICartService {
-    void clearCart();
-    BigDecimal getTotalPrice();
+    void clearCart(Long userId);
+    BigDecimal getTotalPrice(Long userId);
     Cart initializeNewCart(User user);
-    Cart getCart();
+    Cart getCartByUserId(Long userId);
 }

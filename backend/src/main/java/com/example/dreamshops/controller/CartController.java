@@ -24,7 +24,8 @@ public class CartController {
     @GetMapping
     public ResponseEntity<ApiResponse> getCart() {
         try {
-            Cart cart = cartService.getCart();
+            User user = userService.getAuthenticatedUser();
+            Cart cart = cartService.getCartByUserId(user.getId());
             return ResponseEntity.ok(new ApiResponse("Cart fetched successfully", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch cart: " + e.getMessage(), null));
@@ -34,7 +35,8 @@ public class CartController {
     @DeleteMapping("/clear")
     public ResponseEntity<ApiResponse> clearCart() {
         try {
-            cartService.clearCart();
+            User user = userService.getAuthenticatedUser();
+            cartService.clearCart(user.getId());
             return ResponseEntity.ok(new ApiResponse("Cart cleared successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to clear cart: " + e.getMessage(), null));
@@ -45,7 +47,8 @@ public class CartController {
     @GetMapping("/total-price")
     public ResponseEntity<ApiResponse> getTotalAmount() {
         try {
-            BigDecimal totalPrice = cartService.getTotalPrice();
+            User user = userService.getAuthenticatedUser();
+            BigDecimal totalPrice = cartService.getTotalPrice(user.getId());
             return ResponseEntity.ok(new ApiResponse("Total price: ", totalPrice));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch total price: " + e.getMessage(), null));
