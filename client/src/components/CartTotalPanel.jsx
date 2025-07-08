@@ -1,6 +1,5 @@
 const CartTotalPanel = ({cartTotalAmount, shipping, handleCheckout}) => {
   return (
-    <>
       <div className="col-lg-4">
         <div className="summary-card p-4 shadow-sm">
           <h5 className="mb-4">Order Summary</h5>
@@ -27,7 +26,6 @@ const CartTotalPanel = ({cartTotalAmount, shipping, handleCheckout}) => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 
