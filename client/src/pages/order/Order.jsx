@@ -21,7 +21,7 @@ const Order = () => {
         setOrderDetails(res.data.data);
       })
       .catch((err) => {
-        console.error("Siparişler alınamadı:", err);
+        console.error("Orders could not be received:", err);
       });
   }, [token]);
 

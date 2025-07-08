@@ -4,6 +4,7 @@ import Products from "./pages/product/Products";
 import ProductList from './pages/product/ProductList';
 import Order from './pages/order/Order';
 import Cart from './pages/cart/Cart';
+import User from "./pages/user/User";
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route path='/category/:categoryName' element={<ProductList/>} />
           <Route path='/orders' element={<Order/>} />
           <Route path='/cart' element={<Cart/>} />
+          <Route path='/user' element={<User/>} />
         </Routes>
       </BrowserRouter>
     </>
