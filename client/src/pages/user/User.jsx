@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
-import AccountDetails from "../../components/AccountDetails";
-import AccountSidebar from "../../components/AccountSidebar";
-import AccountUpdate from "../../components/AccountUpdate";
+import UserDetails from "../../components/UserDetails";
+import UserSidebar from "../../components/UserSidebar";
+import UserUpdate from "../../components/UserUpdate";
+import UserDelete from "../../components/UserDelete";
 import OrderLists from "../../components/OrderLists";
+import ProductDelete from "../../components/ProductDelete";
+import ProductAdd from "../../components/ProductAdd";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,7 +17,14 @@ const UserProfile = () => {
   const token = localStorage.getItem("token");
   const [activeSection, setActiveSection] = useState("Personal Information");
 
+  const isAdmin =
+    user.roles && user.roles.some((role) => role.name === "ROLE_ADMIN");
+
   const menuItems = ["Personal Information", "Edit Account", "Delete Account"];
+
+  const finalMenuItems = isAdmin
+    ? [...menuItems, "Add Product", "Edit Product", "Delete Product"]
+    : menuItems;
 
   useEffect(() => {
     axios
@@ -25,6 +35,7 @@ const UserProfile = () => {
         withCredentials: true,
       })
       .then((response) => {
+        console.log(response.data.data);
         setUser(response.data.data);
         setOrders(response.data.data.orders || []);
       })
@@ -32,33 +43,6 @@ const UserProfile = () => {
         console.error("Error fetching user data:", error);
       });
   }, [token]);
-
-  useEffect(() => {
-    if (activeSection === "Delete Account") {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete your account?"
-      );
-      if (confirmDelete) {
-        axios
-          .delete(`${baseUrl}/users/delete`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then(() => {
-            alert("Account deleted successfully.");
-            localStorage.removeItem("token");
-            window.location.href = "/";
-          })
-          .catch((err) => {
-            console.error("Error deleting account:", err);
-            alert("Failed to delete account.");
-          });
-      } else {
-        setActiveSection("Personal Information");
-      }
-    }
-  }, [activeSection]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -74,8 +58,8 @@ const UserProfile = () => {
         </div>
         <div className="row">
           <div className="col-md-3 mt-3">
-            <AccountSidebar
-              menuItems={menuItems}
+            <UserSidebar
+              menuItems={finalMenuItems}
               activeSection={activeSection}
               setActiveSection={setActiveSection}
             />
@@ -83,10 +67,22 @@ const UserProfile = () => {
           <div className="col-md-9" style={{ paddingLeft: "70px" }}>
             <div className="mb-5">
               {activeSection === "Edit Account" ? (
-                <AccountUpdate userDetails={user} onUpdate={setUser} />
+                <UserUpdate userDetails={user} onUpdate={setUser} />
+              ) : activeSection === "Delete Account" ? (
+                <UserDelete />
+              ): activeSection === "Add Product" ? (
+                <ProductAdd />
+              ) : activeSection === "Edit Product" ? (
+                <div>
+                 
+                </div>
+              ) : activeSection === "Delete Product" ? (
+                <div>
+                  <ProductDelete />
+                </div>
               ) : (
-                <>
-                  <AccountDetails userDetails={user} />
+                <div>
+                  <UserDetails userDetails={user} />
                   <OrderLists orders={orders} />
                   <div className="text-start mt-4">
                     <button
@@ -97,7 +93,7 @@ const UserProfile = () => {
                       Log Out
                     </button>
                   </div>
-                </>
+                </div>
               )}
             </div>
           </div>
