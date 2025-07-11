@@ -41,7 +41,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      await axios.delete(`${baseUrl}/cartItems/item/${productId}/remove`, {
+      await axios.delete(`${baseUrl}/cartItems/products/${productId}/cartItems`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -56,7 +56,7 @@ const Cart = () => {
       return;
     }
     try {
-      await axios.delete(`${baseUrl}/carts/clear`, {
+      await axios.delete(`${baseUrl}/carts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

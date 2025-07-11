@@ -23,7 +23,7 @@ const Product = () => {
 
     axios
       .post(
-        `${baseUrl}/cartItems/add?productId=${productId}&quantity=${1}`,
+        `${baseUrl}/cartItems?productId=${productId}&quantity=${1}`,
         {},
         {
           headers: {

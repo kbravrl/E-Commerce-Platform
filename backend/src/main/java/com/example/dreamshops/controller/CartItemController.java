@@ -20,10 +20,9 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RequestMapping("${api.prefix}/cartItems")
 public class CartItemController {
     private final ICartItemService cartItemService;
-    private final ICartService cartService;
     private final IUserService userService;
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
@@ -37,7 +36,7 @@ public class CartItemController {
         }
     }
 
-    @DeleteMapping("/item/{productId}/remove")
+    @DeleteMapping("/products/{productId}/cartItems")
     public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable Long productId) {
         try {
             User user = userService.getAuthenticatedUser();
@@ -48,7 +47,7 @@ public class CartItemController {
         }
     }
 
-    @PutMapping("/item/{productId}/update")
+    @PutMapping("/products/{productId}/cartItems")
     public ResponseEntity<ApiResponse> updateItemQuantity(@PathVariable Long productId,
                                                           @RequestParam int quantity) {
         try {

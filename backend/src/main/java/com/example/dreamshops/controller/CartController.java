@@ -32,7 +32,7 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/clear")
+    @DeleteMapping
     public ResponseEntity<ApiResponse> clearCart() {
         try {
             User user = userService.getAuthenticatedUser();

@@ -14,7 +14,7 @@ const CartItem = ({ item, onRemove, handleQuantityChange }) => {
     if (newQuantity < 1) return;
     try {
       await axios.put(
-        `${baseUrl}/cartItems/item/${item.product.id}/update?quantity=${newQuantity}`,
+        `${baseUrl}/cartItems/products/${item.product.id}/cartItems?quantity=${newQuantity}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
