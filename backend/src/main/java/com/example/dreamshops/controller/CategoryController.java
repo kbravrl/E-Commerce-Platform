@@ -18,23 +18,13 @@ import static org.springframework.http.HttpStatus.*;
 public class CategoryController {
     private final ICategoryService categoryService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<ApiResponse> getAllCategories() {
         try {
             List<Category> categories = categoryService.getAllCategories();
             return ResponseEntity.ok(new ApiResponse("Categories fetched successfully", categories));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Error to fetch categories: " + e.getMessage(), INTERNAL_SERVER_ERROR));
-        }
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addCategory(@RequestBody Category category) {
-        try {
-            Category savedCategory = categoryService.addCategory(category);
-            return ResponseEntity.ok(new ApiResponse("Category added successfully", savedCategory));
-        } catch (Exception e) {
-            return ResponseEntity.status(CONFLICT).body(new ApiResponse("Error to add category: " + e.getMessage(), null));
         }
     }
 
@@ -58,18 +48,17 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/{categoryId}/delete")
-    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long categoryId) {
+    @PostMapping
+    public ResponseEntity<ApiResponse> addCategory(@RequestBody Category category) {
         try {
-            categoryService.deleteCategory(categoryId);
-            return ResponseEntity.ok(new ApiResponse("Category fetched successfully", null));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to delete category: " + e.getMessage(), null));
+            Category savedCategory = categoryService.addCategory(category);
+            return ResponseEntity.ok(new ApiResponse("Category added successfully", savedCategory));
+        } catch (Exception e) {
+            return ResponseEntity.status(CONFLICT).body(new ApiResponse("Error to add category: " + e.getMessage(), null));
         }
     }
 
-
-    @PutMapping("/{categoryId}/update")
+    @PutMapping("/{categoryId}")
     public ResponseEntity<ApiResponse> updateCategory(@PathVariable Long categoryId, @RequestBody Category category) {
         try {
             Category updatedCategory = categoryService.updateCategory(category, categoryId);
@@ -79,5 +68,13 @@ public class CategoryController {
         }
     }
 
-
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long categoryId) {
+        try {
+            categoryService.deleteCategory(categoryId);
+            return ResponseEntity.ok(new ApiResponse("Category fetched successfully", null));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to delete category: " + e.getMessage(), null));
+        }
+    }
 }

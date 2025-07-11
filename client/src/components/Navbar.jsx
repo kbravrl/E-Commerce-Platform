@@ -11,7 +11,7 @@ const Navbar = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/categories/all`)
+      .get(`${baseUrl}/categories`)
       .then((response) => {
         setCategories(response.data.data);
       })
