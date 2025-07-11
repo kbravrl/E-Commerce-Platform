@@ -1,6 +1,7 @@
 package com.example.dreamshops.controller;
 
 import com.example.dreamshops.dto.ImageDto;
+import com.example.dreamshops.exceptions.ProductNotFoundException;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.model.Image;
 import com.example.dreamshops.response.ApiResponse;
@@ -25,17 +26,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class ImageController {
     private final IImageService imageService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImage(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
-        try {
-            List<ImageDto> imageDtos = imageService.saveImage(files, productId);
-            return ResponseEntity.ok(new ApiResponse("Image updated successfully", imageDtos));
-
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to upload images: ", e.getMessage()));
-        }
-    }
-
     @GetMapping("/download/{imageId}")
     public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
         Image image = imageService.getImageById(imageId);
@@ -46,37 +36,39 @@ public class ImageController {
                 .body(resource);
     }
 
-    @PutMapping("/{imageId}/update")
-    public ResponseEntity<ApiResponse> updateImage(@RequestParam MultipartFile file, @PathVariable Long imageId) {
+    @PostMapping
+    public ResponseEntity<ApiResponse> saveImage(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
         try {
-            Image image = imageService.getImageById(imageId);
-            if(image != null) {
-                imageService.updateImage(file, imageId);
-                return ResponseEntity.ok(new ApiResponse("Image updated successfully", null));
+            List<ImageDto> imageDtos = imageService.saveImage(files, productId);
+            return ResponseEntity.ok(new ApiResponse("Image updated successfully", imageDtos));
 
-            }
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to upload images: ", e.getMessage()));
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse> updateImage(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
+        try {
+            imageService.updateImage(files, productId);
+            return ResponseEntity.ok(new ApiResponse("Image updated successfully", null));
+
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse( e.getMessage(), null));
 
         }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to update image: ", INTERNAL_SERVER_ERROR));
-
     }
 
-    @DeleteMapping("/{imageId}/delete")
+    @DeleteMapping("/{imageId}")
     public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId) {
         try {
             Image image = imageService.getImageById(imageId);
-            if(image != null) {
                 imageService.deleteImageById(imageId);
                 return ResponseEntity.ok(new ApiResponse("Image deleted successfully", null));
 
-            }
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse( e.getMessage(), null));
-
         }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to delete image: ", INTERNAL_SERVER_ERROR));
 
     }
 }

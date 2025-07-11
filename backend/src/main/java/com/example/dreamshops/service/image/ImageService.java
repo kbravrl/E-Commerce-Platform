@@ -1,6 +1,7 @@
 package com.example.dreamshops.service.image;
 
 import com.example.dreamshops.dto.ImageDto;
+import com.example.dreamshops.exceptions.ProductNotFoundException;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.model.Image;
 import com.example.dreamshops.model.Product;
@@ -26,14 +27,6 @@ public class ImageService implements IImageService{
     public Image getImageById(Long id) {
         return imageRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Image not found with id: " + id));
-    }
-
-    @Override
-    public void deleteImageById(Long id) {
-        imageRepository.findById(id)
-                .ifPresentOrElse(imageRepository::delete, () -> {
-                    throw new ResourceNotFoundException("Image not found with id: " + id);
-                });
     }
 
     @Override
@@ -69,15 +62,32 @@ public class ImageService implements IImageService{
     }
 
     @Override
-    public void updateImage(MultipartFile file, Long imageId) {
-        Image image = getImageById(imageId);
-        try {
-            image.setFileName(file.getOriginalFilename());
-            image.setFileType(file.getContentType());
-            image.setImage(new SerialBlob(file.getBytes()));
-            imageRepository.save(image);
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException("Failed to update image data" + e.getMessage());
+    public void updateImage(List<MultipartFile> files, Long productId) {
+        List<Image> images = imageRepository.findByProductId(productId);
+
+        if (images.isEmpty()) {
+            throw new ResourceNotFoundException("No images found for product with id: " + productId);
         }
+
+        for (int i = 0; i < images.size(); i++) {
+            Image image = images.get(i);
+            MultipartFile file = files.get(i);
+            try {
+                image.setFileName(file.getOriginalFilename());
+                image.setFileType(file.getContentType());
+                image.setImage(new SerialBlob(file.getBytes()));
+                imageRepository.save(image);
+            } catch (IOException | SQLException e) {
+                throw new RuntimeException("Failed to update image data: " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void deleteImageById(Long id) {
+        imageRepository.findById(id)
+                .ifPresentOrElse(imageRepository::delete, () -> {
+                    throw new ResourceNotFoundException("Image not found with id: " + id);
+                });
     }
 }
