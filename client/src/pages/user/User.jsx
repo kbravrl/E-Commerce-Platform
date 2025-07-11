@@ -8,6 +8,7 @@ import UserDelete from "../../components/UserDelete";
 import OrderLists from "../../components/OrderLists";
 import ProductDelete from "../../components/ProductDelete";
 import ProductAdd from "../../components/ProductAdd";
+import ProductEdit from "../../components/ProductEdit";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -73,7 +74,7 @@ const UserProfile = () => {
               ) : activeSection === "Add Product" ? (
                 <ProductAdd />
               ) : activeSection === "Edit Product" ? (
-                <div></div>
+                <ProductEdit />
               ) : activeSection === "Delete Product" ? (
                 <div>
                   <ProductDelete />
