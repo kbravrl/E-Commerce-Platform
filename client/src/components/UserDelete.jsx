@@ -11,7 +11,7 @@ const UserDelete = () => {
     );
     if (confirmDelete) {
       axios
-        .delete(`${baseUrl}/users/delete`, {
+        .delete(`${baseUrl}/users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

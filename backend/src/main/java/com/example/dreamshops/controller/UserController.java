@@ -32,7 +32,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<ApiResponse> createUser(@RequestBody CreateUserRequest request) {
         try {
             User user = userService.createUser(request);
@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<ApiResponse> updateUser(@RequestBody UserUpdateRequest request) {
         try {
             User user = userService.getAuthenticatedUser();
@@ -55,7 +55,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<ApiResponse> deleteUser() {
         try {
             User user = userService.getAuthenticatedUser();

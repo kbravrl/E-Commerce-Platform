@@ -70,12 +70,10 @@ const UserProfile = () => {
                 <UserUpdate userDetails={user} onUpdate={setUser} />
               ) : activeSection === "Delete Account" ? (
                 <UserDelete />
-              ): activeSection === "Add Product" ? (
+              ) : activeSection === "Add Product" ? (
                 <ProductAdd />
               ) : activeSection === "Edit Product" ? (
-                <div>
-                 
-                </div>
+                <div></div>
               ) : activeSection === "Delete Product" ? (
                 <div>
                   <ProductDelete />

@@ -12,7 +12,7 @@ const UserUpdate = ({ userDetails, onUpdate }) => {
     e.preventDefault();
     axios
       .put(
-        `${baseUrl}/users/update`,
+        `${baseUrl}/users`,
         { firstName, lastName },
         {
           headers: {
