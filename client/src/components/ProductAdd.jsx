@@ -29,7 +29,6 @@ const ProductAdd = () => {
     e.preventDefault();
 
     try {
-      // 1️⃣ İlk önce ürün ekle
       const productResponse = await axios.post(
         `${baseUrl}/products`,
         {
@@ -47,13 +46,8 @@ const ProductAdd = () => {
         }
       );
 
-      alert("Product added successfully!");
-
-      // 2️⃣ Backend'den dönen ID'yi al
       const productId = productResponse.data.data.id;
-      console.log("New product ID from backend:", productId);
 
-      // 3️⃣ Images varsa, upload et
       if (images.length > 0) {
         const formData = new FormData();
         for (let i = 0; i < images.length; i++) {
@@ -61,17 +55,16 @@ const ProductAdd = () => {
         }
         formData.append("productId", productId);
 
-        await axios.post(`${baseUrl}/images/upload`, formData, {
+        await axios.post(`${baseUrl}/images`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
 
-        alert("Images uploaded successfully!");
+        alert("Product added successfully!");
       }
 
-      // 4️⃣ State'leri resetle
       setProduct({
         name: "",
         brand: "",
@@ -84,7 +77,6 @@ const ProductAdd = () => {
 
     } catch (err) {
       console.error("Error adding product or uploading images:", err);
-      alert("Failed: " + (err.response?.data?.message || "Unexpected error"));
     }
   };
 
@@ -100,7 +92,6 @@ const ProductAdd = () => {
           onChange={handleChange}
         />
       </div>
-
       <div className="mb-3">
         <InputField
           id="brand"
@@ -110,7 +101,6 @@ const ProductAdd = () => {
           onChange={handleChange}
         />
       </div>
-
       <div className="mb-3">
         <label htmlFor="price">Price</label>
         <input
@@ -122,7 +112,6 @@ const ProductAdd = () => {
           min="0"
         />
       </div>
-
       <div className="mb-3">
         <label htmlFor="inventory">Inventory</label>
         <input
@@ -134,7 +123,6 @@ const ProductAdd = () => {
           min="0"
         />
       </div>
-
       <div className="mb-3">
         <label htmlFor="description">Description</label>
         <textarea
@@ -145,7 +133,6 @@ const ProductAdd = () => {
           required
         ></textarea>
       </div>
-
       <div className="mb-3">
         <InputField
           id="category"
@@ -155,7 +142,6 @@ const ProductAdd = () => {
           onChange={handleChange}
         />
       </div>
-
       <div className="mb-3">
         <label htmlFor="images">Images</label>
         <input
@@ -166,7 +152,6 @@ const ProductAdd = () => {
           onChange={handleFileChange}
         />
       </div>
-
       <button type="submit" className="btn btn-dark">
         Submit
       </button>
