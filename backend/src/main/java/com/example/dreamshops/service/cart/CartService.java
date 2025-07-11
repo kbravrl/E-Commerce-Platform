@@ -19,20 +19,21 @@ import java.util.Optional;
 public class CartService implements ICartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-
-    @Transactional
-    @Override
-    public void clearCart(Long userId) {
-        Cart cart = getCartByUserId(userId);
-        cartItemRepository.deleteAllByCartId(cart.getId());
-        cart.clearCart();
-        cartRepository.deleteById(cart.getId());
-    }
+    private final IUserService userService;
 
     @Override
-    public BigDecimal getTotalPrice(Long userId) {
-        Cart cart = getCartByUserId(userId);
-        return cart.getTotalAmount();
+    public Cart getCart(Long userId) {
+        return Optional.ofNullable(getCartByUserId(userId))
+                .map(cart -> {
+                    BigDecimal totalAmount = cart.getTotalAmount();
+                    cart.setTotalAmount(totalAmount);
+                    return cartRepository.save(cart);
+                })
+                .orElseGet(() -> {
+                    User user = Optional.ofNullable(userService.getUserById(userId))
+                            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                    return initializeNewCart(user);
+                });
     }
 
     @Override
@@ -48,5 +49,20 @@ public class CartService implements ICartService {
     @Override
     public Cart getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
+    }
+
+    @Override
+    public BigDecimal getTotalPrice(Long userId) {
+        Cart cart = getCartByUserId(userId);
+        return cart.getTotalAmount();
+    }
+
+    @Transactional
+    @Override
+    public void clearCart(Long userId) {
+        Cart cart = getCartByUserId(userId);
+        cartItemRepository.deleteAllByCartId(cart.getId());
+        cart.clearCart();
+        cartRepository.deleteById(cart.getId());
     }
 }

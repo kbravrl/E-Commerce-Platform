@@ -25,10 +25,21 @@ public class CartController {
     public ResponseEntity<ApiResponse> getCart() {
         try {
             User user = userService.getAuthenticatedUser();
-            Cart cart = cartService.getCartByUserId(user.getId());
+            Cart cart = cartService.getCart(user.getId());
             return ResponseEntity.ok(new ApiResponse("Cart fetched successfully", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch cart: " + e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/total-price")
+    public ResponseEntity<ApiResponse> getTotalAmount() {
+        try {
+            User user = userService.getAuthenticatedUser();
+            BigDecimal totalPrice = cartService.getTotalPrice(user.getId());
+            return ResponseEntity.ok(new ApiResponse("Total price: ", totalPrice));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch total price: " + e.getMessage(), null));
         }
     }
 
@@ -42,16 +53,5 @@ public class CartController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to clear cart: " + e.getMessage(), null));
         }
 
-    }
-
-    @GetMapping("/total-price")
-    public ResponseEntity<ApiResponse> getTotalAmount() {
-        try {
-            User user = userService.getAuthenticatedUser();
-            BigDecimal totalPrice = cartService.getTotalPrice(user.getId());
-            return ResponseEntity.ok(new ApiResponse("Total price: ", totalPrice));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch total price: " + e.getMessage(), null));
-        }
     }
 }

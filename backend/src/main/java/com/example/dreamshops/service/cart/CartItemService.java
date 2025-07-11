@@ -35,12 +35,7 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public void addItemToCart(Long userId,Long productId, int quantity) {
-        // Get the cart
-        // Get the product
-        // Check if the product already in the cart
-        // If it exists, update the quantity
-        // If it does not exist, initiate a new CartItem entry.
-        Cart cart = cartService.getCartByUserId(userId);
+        Cart cart = cartService.getCart(userId);
         Product product = productService.getProductById(productId);
         CartItem cartItem = cart.getItems()
                 .stream()
@@ -68,7 +63,6 @@ public class CartItemService implements ICartItemService {
         CartItem itemToRemove = getCartItem(userId, productId);
         cart.removeItem(itemToRemove);
         cartRepository.save(cart);
-
     }
 
     @Override
