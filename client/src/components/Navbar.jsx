@@ -23,13 +23,10 @@ const Navbar = () => {
       className="navbar navbar-expand-md bg-dark sticky-top border-bottom"
       data-bs-theme="dark"
     >
-      {" "}
       <div className="container">
-        {" "}
         <a className="navbar-brand d-md-none" href="#">
-          {" "}
           Aperture
-        </a>{" "}
+        </a>
         <button
           className="navbar-toggler"
           type="button"
@@ -38,45 +35,43 @@ const Navbar = () => {
           aria-controls="offcanvas"
           aria-label="Toggle navigation"
         >
-          {" "}
-          <span className="navbar-toggler-icon"></span>{" "}
-        </button>{" "}
+          <span className="navbar-toggler-icon"></span>
+        </button>
         <div
           className="offcanvas offcanvas-end"
           tabIndex="-1"
           id="offcanvas"
           aria-labelledby="offcanvasLabel"
         >
-          {" "}
           <div className="offcanvas-header">
-            {" "}
             <h5 className="offcanvas-title" id="offcanvasLabel">
               Aperture
-            </h5>{" "}
+            </h5>
             <button
               type="button"
               className="btn-close"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
-            ></button>{" "}
-          </div>{" "}
-          <div className="offcanvas-body">
-            {" "}
+            ></button>
+          </div>
+          <div className="offcanvas-body">   
             <ul className="navbar-nav flex-grow-1 justify-content-between">
-              {" "}
               <li className="nav-item">
                 <a className="nav-link" href="#" aria-label="Aperture">
-                  {" "}
-                  <svg className="bi" width="24" height="24" aria-hidden="true">
-                    <use xlinkHref="#aperture"></use>
-                  </svg>{" "}
+                  <img
+                    src={logo}
+                    alt={logo}
+                    width="30"
+                    height="30"
+                    style={{ marginRight: "10px" }}
+                  />
                 </a>
-              </li>{" "}
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/products">
                   Products
                 </a>
-              </li>{" "}
+              </li>
               <li className="nav-item">
                 <button
                   className="navbar-toggler"
@@ -123,12 +118,12 @@ const Navbar = () => {
                     </li>
                   </ul>
                 </div>
-              </li>{" "}
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/orders">
                   Orders
                 </a>
-              </li>{" "}
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/cart">
                   <img
@@ -140,16 +135,16 @@ const Navbar = () => {
                   />
                   Cart
                 </a>
-              </li>{" "}
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/user" aria-label="Cart">
                   <img src={person} alt={person} width="25" height="25" />
                 </a>
-              </li>{" "}
-            </ul>{" "}
-          </div>{" "}
-        </div>{" "}
-      </div>{" "}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };

@@ -16,12 +16,11 @@ const Order = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => {
-        console.log(res.data.data);
-        setOrderDetails(res.data.data);
+      .then((response) => {
+        setOrderDetails(response.data.data);
       })
-      .catch((err) => {
-        console.error("Orders could not be received:", err);
+      .catch((error) => {
+        console.error("Orders could not be received:", error);
       });
   }, [token]);
 

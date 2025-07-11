@@ -38,7 +38,7 @@ const ProductList = () => {
         alert("Product added to cart");
       })
       .catch((error) => {
-        console.error("An error occurred:", error);
+        console.error("Error adding Product:", error);
       });
   };
 

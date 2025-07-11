@@ -76,9 +76,7 @@ const UserProfile = () => {
               ) : activeSection === "Edit Product" ? (
                 <ProductEdit />
               ) : activeSection === "Delete Product" ? (
-                <div>
                   <ProductDelete />
-                </div>
               ) : (
                 <div>
                   <UserDetails userDetails={user} />

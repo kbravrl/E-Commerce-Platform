@@ -24,14 +24,12 @@ const Cart = () => {
       })
       .then((response) => {
         const cartData = response.data?.data;
-
         setCartItems(cartData?.items || []);
         setTotalAmount(cartData?.totalAmount ?? 0);
         setShipping(cartData?.items?.length > 0 ? 20 : 0);
-
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Cart could not be received:", error);
       });
   };
 
@@ -84,7 +82,6 @@ const Cart = () => {
       alert("Order could not be created.");
     }
   };
-
 
   return (
     <>
