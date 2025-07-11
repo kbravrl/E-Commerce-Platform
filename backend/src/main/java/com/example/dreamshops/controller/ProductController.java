@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.*;
 public class ProductController {
     private final IProductService productService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<ApiResponse> getAllProducts() {
         try {
             List<Product> products = productService.getAllProducts();
@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest request) {
         try {
             Product savedProduct = productService.addProduct(request);
@@ -57,7 +57,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{productId}/update")
+    @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request, @PathVariable Long productId) {
         try {
             Product updatedProduct = productService.updateProduct(request, productId);
@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{productId}/delete")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId) {
         try {
             productService.deleteProductById(productId);
@@ -106,8 +106,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/by-name/{name}")
-    public ResponseEntity<ApiResponse> getProductByName(@PathVariable String name) {
+    @GetMapping("by/name")
+    public ResponseEntity<ApiResponse> getProductByName(@RequestParam String name) {
         try {
             List<Product> products = productService.getProductsByName(name);
             if(products.isEmpty()) {
@@ -120,7 +120,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/by-brand")
+    @GetMapping("/by/brand")
     public ResponseEntity<ApiResponse> getProductByBrand(@RequestParam String brand) {
         try {
             List<Product> products = productService.getProductsByBrand(brand);
@@ -148,7 +148,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/count/by-brand-and-name")
+    @GetMapping("/count/by/brand-and-name")
     public ResponseEntity<ApiResponse> countProductsByBrandAndName(@RequestParam String brand, @RequestParam String name) {
         try {
             Long productCount = productService.countProductsByBrandAndName(brand, name);

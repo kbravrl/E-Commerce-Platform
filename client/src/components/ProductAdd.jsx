@@ -31,7 +31,7 @@ const ProductAdd = () => {
     try {
       // 1️⃣ İlk önce ürün ekle
       const productResponse = await axios.post(
-        `${baseUrl}/products/add`,
+        `${baseUrl}/products`,
         {
           name: product.name,
           brand: product.brand,

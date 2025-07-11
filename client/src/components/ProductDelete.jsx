@@ -10,7 +10,7 @@ const DeleteProduct = () => {
   const productDelete = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${baseUrl}/products/${productId}/delete`, {
+      await axios.delete(`${baseUrl}/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

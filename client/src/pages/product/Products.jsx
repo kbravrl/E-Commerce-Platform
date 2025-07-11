@@ -11,7 +11,7 @@ const Product = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/products/all`)
+      .get(`${baseUrl}/products`)
       .then(response => { 
         setProducts(response.data.data);
       })
