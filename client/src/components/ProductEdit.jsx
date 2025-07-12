@@ -1,25 +1,20 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import axios from "axios";
 import InputField from "./InputField";
+import { initialState, productReducer } from "../hooks/productEditReducer";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProductEdit = () => {
-  const [product, setProduct] = useState({
-    id: "",
-    name: "",
-    brand: "",
-    price: "",
-    inventory: "",
-    description: "",
-    category: "",
-  });
-
+  const [product, dispatch] = useReducer(productReducer, initialState);
   const [images, setImages] = useState([]);
   const token = localStorage.getItem("token");
 
   const handleChange = (e) => {
-    setProduct({ ...product, [e.target.id]: e.target.value });
+    dispatch({
+      type: "SET_FIELD",
+      payload: { field: e.target.id, value: e.target.value },
+    });
   };
 
   const handleFileChange = (e) => {
@@ -63,16 +58,7 @@ const ProductEdit = () => {
 
         alert("Product uploaded successfully!");
       }
-
-      setProduct({
-        id: "",
-        name: "",
-        brand: "",
-        price: "",
-        inventory: "",
-        description: "",
-        category: "",
-      });
+      dispatch({ type: "RESET" });
       setImages([]);
     } catch (err) {
       console.error("Error updating product or uploading images:", err);
@@ -82,40 +68,25 @@ const ProductEdit = () => {
   return (
     <form onSubmit={handleSubmit}>
       <legend>Edit Product</legend>
-      <div className="mb-3">
-        <InputField
-          id="id"
-          label="Product ID"
-          type="number"
-          placeholder="Product ID to update"
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <InputField
-          id="name"
-          label="Name"
-          type="text"
-          placeholder="Product Name"
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <InputField
-          id="brand"
-          label="Brand"
-          type="text"
-          placeholder="Product Brand"
-          onChange={handleChange}
-        />
-      </div>
+      <InputField
+        id="id"
+        label="Product ID"
+        type="number"
+        onChange={handleChange}
+      />
+      <InputField id="name" label="Name" type="text" onChange={handleChange} />
+      <InputField
+        id="brand"
+        label="Brand"
+        type="text"
+        onChange={handleChange}
+      />
       <div className="mb-3">
         <label htmlFor="price">Price</label>
         <input
           type="number"
           id="price"
           className="form-control"
-          placeholder="Product Price"
           onChange={handleChange}
           min="0"
         />
@@ -126,7 +97,6 @@ const ProductEdit = () => {
           type="number"
           id="inventory"
           className="form-control"
-          placeholder="Product Inventory"
           onChange={handleChange}
           min="0"
         />
@@ -136,20 +106,16 @@ const ProductEdit = () => {
         <textarea
           id="description"
           className="form-control"
-          placeholder="Product Description"
           onChange={handleChange}
           required
         ></textarea>
       </div>
-      <div className="mb-3">
-        <InputField
-          id="category"
-          label="Category"
-          type="text"
-          placeholder="Category Name"
-          onChange={handleChange}
-        />
-      </div>
+      <InputField
+        id="category"
+        label="Category"
+        type="text"
+        onChange={handleChange}
+      />
       <div className="mb-3">
         <label htmlFor="images">Images (optional)</label>
         <input
