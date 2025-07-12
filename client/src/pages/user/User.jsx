@@ -68,7 +68,7 @@ const UserProfile = () => {
           <div className="col-md-9" style={{ paddingLeft: "70px" }}>
             <div className="mb-5">
               {activeSection === "Edit Account" ? (
-                <UserUpdate userDetails={user} onUpdate={setUser} />
+                <UserUpdate onUpdate={setUser} />
               ) : activeSection === "Delete Account" ? (
                 <UserDelete />
               ) : activeSection === "Add Product" ? (

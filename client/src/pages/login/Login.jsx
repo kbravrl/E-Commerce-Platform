@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LogoHeader from "../../components/LogoHeader";
@@ -8,8 +8,8 @@ import "./Login.css";
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -17,8 +17,8 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, {
-        email,
-        password,
+        email : emailRef.current.value,
+        password : passwordRef.current.value,
       });
 
       const token = response.data.data.token;
@@ -42,17 +42,15 @@ const Login = () => {
         <LogoHeader />
         <InputField
           id={"inputEmail"}
+          ref={emailRef}
           label={"Email Address"}
           type={"email"}
-          placeholder={"username"}
-          onChange={(e) => setEmail(e.target.value)}
         />
         <InputField
           id={"inputPassword"}
+          ref={passwordRef}
           label={"Password"}
           type={"password"}
-          placeholder={"passport"}
-          onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" className="btn btn-primary w-100 mt-3">
           Login

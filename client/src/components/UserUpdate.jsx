@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useRef } from "react";
 import axios from "axios";
 import InputField from "./InputField";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-const UserUpdate = ({ userDetails, onUpdate }) => {
-  const [firstName, setFirstName] = useState(userDetails.firstName || "");
-  const [lastName, setLastName] = useState(userDetails.lastName || "");
+const UserUpdate = ({ onUpdate }) => {
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
 
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
       .put(
         `${baseUrl}/users`,
-        { firstName, lastName },
+        {
+          firstName: firstNameRef.current.value,
+          lastName: lastNameRef.current.value,
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,24 +36,18 @@ const UserUpdate = ({ userDetails, onUpdate }) => {
   return (
     <form onSubmit={handleUpdate}>
       <legend>Edit Account</legend>
-      <div className="mb-3">
-        <InputField
-          id={"firstName"}
-          label={"First Name"}
-          type={"text"}
-          placeholder={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <InputField
-          id={"lastName"}
-          label={"Last Name"}
-          type={"text"}
-          placeholder={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-      </div>
+      <InputField
+        id={"firstName"}
+        ref={firstNameRef}
+        label={"First Name"}
+        type={"text"}
+      />
+      <InputField
+        id={"lastName"}
+        ref={lastNameRef}
+        label={"Last Name"}
+        type={"text"}
+      />
       <button type="submit" className="btn btn-dark" onClick={handleUpdate}>
         Submit
       </button>

@@ -26,16 +26,13 @@ const DeleteProduct = () => {
   return (
     <form onSubmit={productDelete}>
       <legend>Delete Product</legend>
-      <div className="mb-3">
-        <InputField
-          id={"productId"}
-          label={"Product ID"}
-          type={"text"}
-          onChange={(e) => setProductId(e.target.value)}
-          placeholder={"Product Id"}
-          required
-        />
-      </div>
+      <InputField
+        id={"productId"}
+        label={"Product ID"}
+        type={"text"}
+        onChange={(e) => setProductId(e.target.value)}
+        required
+      />
       <button type="submit" className="btn btn-dark">
         Submit
       </button>
