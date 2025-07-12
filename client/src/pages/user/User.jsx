@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import UserDetails from "../../components/UserDetails";
 import UserSidebar from "../../components/UserSidebar";
 import UserUpdate from "../../components/UserUpdate";
@@ -13,6 +14,7 @@ import ProductEdit from "../../components/ProductEdit";
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState([]);
   const [orders, setOrders] = useState([]);
   const token = localStorage.getItem("token");
@@ -47,7 +49,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/";
+    navigate("/", { replace: true });
   };
 
   return (
@@ -76,7 +78,7 @@ const UserProfile = () => {
               ) : activeSection === "Edit Product" ? (
                 <ProductEdit />
               ) : activeSection === "Delete Product" ? (
-                  <ProductDelete />
+                <ProductDelete />
               ) : (
                 <div>
                   <UserDetails userDetails={user} />
