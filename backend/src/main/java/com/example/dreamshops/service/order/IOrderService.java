@@ -5,8 +5,8 @@ import com.example.dreamshops.model.Order;
 import java.util.List;
 
 public interface IOrderService {
-    Order placeOrder(Long userId);
+    OrderDto placeOrder();
     OrderDto getOrderById(Long orderId);
-    List<OrderDto> getUserOrders(Long userId);
+    List<OrderDto> getUserOrders();
     OrderDto convertToDto(Order order);
 }

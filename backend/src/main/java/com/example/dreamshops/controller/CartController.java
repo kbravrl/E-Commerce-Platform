@@ -19,13 +19,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("${api.prefix}/carts")
 public class CartController {
     private final ICartService cartService;
-    private final IUserService userService;
 
     @GetMapping
     public ResponseEntity<ApiResponse> getCart() {
         try {
-            User user = userService.getAuthenticatedUser();
-            Cart cart = cartService.getCart(user.getId());
+            Cart cart = cartService.getCart();
             return ResponseEntity.ok(new ApiResponse("Cart fetched successfully", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch cart: " + e.getMessage(), null));
@@ -35,8 +33,7 @@ public class CartController {
     @GetMapping("/total-price")
     public ResponseEntity<ApiResponse> getTotalAmount() {
         try {
-            User user = userService.getAuthenticatedUser();
-            BigDecimal totalPrice = cartService.getTotalPrice(user.getId());
+            BigDecimal totalPrice = cartService.getTotalPrice();
             return ResponseEntity.ok(new ApiResponse("Total price: ", totalPrice));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to fetch total price: " + e.getMessage(), null));
@@ -46,8 +43,7 @@ public class CartController {
     @DeleteMapping
     public ResponseEntity<ApiResponse> clearCart() {
         try {
-            User user = userService.getAuthenticatedUser();
-            cartService.clearCart(user.getId());
+            cartService.clearCart();
             return ResponseEntity.ok(new ApiResponse("Cart cleared successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error to clear cart: " + e.getMessage(), null));

@@ -20,14 +20,12 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RequestMapping("${api.prefix}/cartItems")
 public class CartItemController {
     private final ICartItemService cartItemService;
-    private final IUserService userService;
 
     @PostMapping
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
-            User user = userService.getAuthenticatedUser();
-            cartItemService.addItemToCart(user.getId(), productId, quantity);
+            cartItemService.addItemToCart(productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Cart item added successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error adding cart item: " + e.getMessage(), null));
@@ -40,8 +38,7 @@ public class CartItemController {
     public ResponseEntity<ApiResponse> updateItemQuantity(@PathVariable Long productId,
                                                           @RequestParam int quantity) {
         try {
-            User user = userService.getAuthenticatedUser();
-            cartItemService.updateItemQuantity(user.getId(), productId, quantity);
+            cartItemService.updateItemQuantity(productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Cart item quantity updated successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error updating cart item quantity: " + e.getMessage(), null));
@@ -51,8 +48,7 @@ public class CartItemController {
     @DeleteMapping("/products/{productId}/cartItems")
     public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable Long productId) {
         try {
-            User user = userService.getAuthenticatedUser();
-            cartItemService.removeItemFromCart(user.getId(), productId);
+            cartItemService.removeItemFromCart(productId);
             return ResponseEntity.ok(new ApiResponse("Cart item removed successfully", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Error removing cart item: " + e.getMessage(), null));

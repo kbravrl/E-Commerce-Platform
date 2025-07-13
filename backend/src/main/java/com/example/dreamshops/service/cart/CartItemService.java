@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 public class CartItemService implements ICartItemService {
     private final CartItemRepository cartItemRepository;
     private final CartRepository cartRepository;
+    private final IUserService userService;
     private final IProductService productService;
     private final ICartService cartService;
 
@@ -34,8 +35,8 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void addItemToCart(Long userId,Long productId, int quantity) {
-        Cart cart = cartService.getCart(userId);
+    public void addItemToCart(Long productId, int quantity) {
+        Cart cart = cartService.getCart();
         Product product = productService.getProductById(productId);
         CartItem cartItem = cart.getItems()
                 .stream()
@@ -58,16 +59,18 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void removeItemFromCart(Long userId, Long productId) {
-        Cart cart = cartService.getCartByUserId(userId);
-        CartItem itemToRemove = getCartItem(userId, productId);
+    public void removeItemFromCart(Long productId) {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartService.getCartByUserId(user.getId());
+        CartItem itemToRemove = getCartItem(user.getId(), productId);
         cart.removeItem(itemToRemove);
         cartRepository.save(cart);
     }
 
     @Override
-    public void updateItemQuantity(Long userId, Long productId, int quantity) {
-        Cart cart = cartService.getCartByUserId(userId);
+    public void updateItemQuantity(Long productId, int quantity) {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartService.getCartByUserId(user.getId());
         cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))

@@ -26,9 +26,8 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<ApiResponse> getAllProducts() {
         try {
-            List<Product> products = productService.getAllProducts();
-            List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", convertedProducts));
+            List<ProductDto> products = productService.getAllProducts();
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Error to fetch products: " + e.getMessage(), null));
         }

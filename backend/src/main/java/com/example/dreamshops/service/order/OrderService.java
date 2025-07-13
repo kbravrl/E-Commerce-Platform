@@ -23,20 +23,22 @@ import java.util.List;
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final CartService cartService;
+    private final IUserService userService;
     private final ModelMapper mabelMapper;
     private final ProductRepository productRepository;
 
     @Transactional
     @Override
-    public Order placeOrder(Long userId) {
-        Cart cart = cartService.getCartByUserId(userId);
+    public OrderDto placeOrder() {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartService.getCartByUserId(user.getId());
         Order order = createOrder(cart);
         List<OrderItem> orderItems = createOrderItems(order, cart);
         order.setOrderItems(new HashSet<>(orderItems));
         order.setTotalAmount(calculateTotalAmount(orderItems));
         Order savedOrder = orderRepository.save(order);
-        cartService.clearCart(userId);
-        return savedOrder;
+        cartService.clearCart();
+        return convertToDto(savedOrder);
 
     }
 
@@ -79,8 +81,9 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public List<OrderDto> getUserOrders(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders() {
+        User user = userService.getAuthenticatedUser();
+        List<Order> orders = orderRepository.findByUserId(user.getId());
         return orders.stream().map(this:: convertToDto).toList();
     }
 

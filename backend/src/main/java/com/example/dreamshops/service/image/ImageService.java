@@ -1,7 +1,6 @@
 package com.example.dreamshops.service.image;
 
 import com.example.dreamshops.dto.ImageDto;
-import com.example.dreamshops.exceptions.ProductNotFoundException;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.model.Image;
 import com.example.dreamshops.model.Product;

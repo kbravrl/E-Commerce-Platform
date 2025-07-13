@@ -24,9 +24,7 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> createOrder() {
         try {
-            User user = userService.getAuthenticatedUser();
-            Order order = orderService.placeOrder(user.getId());
-            OrderDto orderDto = orderService.convertToDto(order);
+            OrderDto orderDto = orderService.placeOrder();
             return ResponseEntity.ok(new ApiResponse("Order created successfully", orderDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to create order: " + e.getMessage(), null));
@@ -46,8 +44,7 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<ApiResponse> getUserOrders() {
         try {
-            User user = userService.getAuthenticatedUser();
-            List<OrderDto> orders = orderService.getUserOrders(user.getId());
+            List<OrderDto> orders = orderService.getUserOrders();
             return ResponseEntity.ok(new ApiResponse("User orders retrieved successfully", orders));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("No orders found for user: " + e.getMessage(), null));
