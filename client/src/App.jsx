@@ -11,10 +11,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public (herkes erişebilir) */}
         <Route path="/" element={<Login />} />
-
-        {/* ProtectedRoute kullanarak içindeki tüm route'ları korumaya alıyoruz */}
         <Route element={<ProtectedRoute redirectPath="/" />}>
           <Route path="/products" element={<Products />} />
           <Route path="/category/:categoryName" element={<ProductList />} />
@@ -22,8 +19,6 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/user" element={<User />} />
         </Route>
-
-        {/* Tanımlı değilse login’e yönlendir */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
