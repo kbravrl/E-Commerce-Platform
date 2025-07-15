@@ -2,9 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
-import "./Product.css";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -12,10 +11,10 @@ const Product = () => {
   useEffect(() => {
     axios
       .get(`${baseUrl}/products`)
-      .then(response => { 
+      .then((response) => {
         setProducts(response.data.data);
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   }, []);
 
   const handleAddToCart = (productId) => {
@@ -29,7 +28,7 @@ const Product = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          withCredentials : true
+          withCredentials: true,
         }
       )
       .then(() => {
@@ -39,15 +38,22 @@ const Product = () => {
         console.error("Error adding product:", error);
       });
   };
-  
 
   return (
     <>
       <Navbar />
-      <div className="container py-5">
-        <h2 className="text-center mb-5">Our Products</h2>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-          {products.map(product => (<ProductCard key={product.id} product={product} handleAddToCart={handleAddToCart}/>))}
+      <div className="container mx-auto py-5">
+        <h2 className="text-3xl font-semibold text-center mb-5">
+          Our Products
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              handleAddToCart={handleAddToCart}
+            />
+          ))}
         </div>
       </div>
     </>
