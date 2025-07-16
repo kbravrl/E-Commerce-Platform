@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import logo from "../assets/icons/cart2.png";
-import person from "../assets/icons/person.png";
+import user from "../assets/icons/person.png";
 import axios from "axios";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Navbar = () => {
   const [categories, setCategories] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -19,131 +19,65 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav
-      className="navbar navbar-expand-md bg-dark sticky-top border-bottom"
-      data-bs-theme="dark"
-    >
-      <div className="container">
-        <a className="navbar-brand d-md-none" href="#">
-          Aperture
+    <nav className="bg-gray-900">
+      <div className="container flex items-center justify-evenly p-6 space-x-10 ">
+        <a href="#">
+          <img src={logo} alt="Logo" width="30" height="30" />
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvas"
-          aria-controls="offcanvas"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div
-          className="offcanvas offcanvas-end"
-          tabIndex="-1"
-          id="offcanvas"
-          aria-labelledby="offcanvasLabel"
-        >
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasLabel">
-              Aperture
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="offcanvas-body">   
-            <ul className="navbar-nav flex-grow-1 justify-content-between">
-              <li className="nav-item">
-                <a className="nav-link" href="#" aria-label="Aperture">
-                  <img
-                    src={logo}
-                    alt={logo}
-                    width="30"
-                    height="30"
-                    style={{ marginRight: "10px" }}
-                  />
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/products">
-                  Products
-                </a>
-              </li>
-              <li className="nav-item">
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarNavDarkDropdown"
-                  aria-controls="navbarNavDarkDropdown"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
+        <a href="/products" className="text-white no-underline hover:underline">
+          Products
+        </a>
+        <div className="relative">
+          <button
+            onClick={() => setIsOpen((o) => !o)}
+            className="inline-flex justify-center items-center text-white"
+          >
+            Categories
+            <svg
+              className={`w-4 h-4 ml-2 transition-transform ${
+                isOpen ? "rotate-180" : "rotate-0"
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          {isOpen && (
+            <div
+              className="absolute text-center right-0 mt-2 px-1 w-48 bg-gray-900 z-50"
+              role="menu"
+            >
+              {categories.map((cat) => (
+                <a
+                  key={cat.id}
+                  href={`/category/${cat.name}`}
+                  className="block py-2 text-white hover:bg-gray-800 no-underline hover:rounded-full"
+                  role="menuitem"
+                  tabindex="-1"
+                  id={cat.id}
                 >
-                  <span className="navbar-toggler-icon"></span>
-                </button>
-                <div
-                  className="collapse navbar-collapse"
-                  id="navbarNavDarkDropdown"
-                >
-                  <ul className="navbar-nav">
-                    <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDarkDropdownMenuLink"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Categories
-                      </a>
-                      <ul
-                        className="dropdown-menu dropdown-menu-dark"
-                        aria-labelledby="navbarDarkDropdownMenuLink"
-                      >
-                        {categories.map((category) => (
-                          <li key={category.id}>
-                            <Link
-                              className="dropdown-item"
-                              to={`/category/${category.name}`}
-                            >
-                              {category.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/orders">
-                  Orders
+                  {cat.name}
                 </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/cart">
-                  <img
-                    src={logo}
-                    alt={logo}
-                    width="25"
-                    height="25"
-                    style={{ marginRight: "10px" }}
-                  />
-                  Cart
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/user" aria-label="Cart">
-                  <img src={person} alt={person} width="25" height="25" />
-                </a>
-              </li>
-            </ul>
-          </div>
+              ))}
+            </div>
+          )}
         </div>
+        <a href="/orders" className="text-white no-underline hover:underline">
+          Orders
+        </a>
+        <a href="/cart" className="text-white no-underline hover:underline">
+          Cart
+        </a>
+        <a href="/user" aria-label="User">
+          <img src={user} alt="User" width="28" height="25" />
+        </a>
       </div>
     </nav>
   );
