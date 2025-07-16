@@ -1,23 +1,85 @@
-# E-Ticaret Platformu (Spring Boot)
+# E‑Ticaret Platformu (Spring Boot & React)
 
 ## Açıklama
+Bu proje, **Spring Boot** ve **React** + **Tailwind CSS** kullanılarak geliştirilmiş tam özellikli bir e‑ticaret platformudur.  
+Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile **JWT** tabanlı kimlik doğrulama sağlar. Frontend ise kullanıcı arayüzünü React bileşenleriyle sunar.
 
-Bu proje, ürün yönetimi, alışveriş sepeti işlemleri, kullanıcı kimlik doğrulaması ve güvenli API erişimi için işlevler sağlayan Spring Boot ile oluşturulmuş bir E-Ticaret platformudur.
+---
 
-## Özellikler
+## Mimari
+- **Backend**  
+  - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, MySQL  
+  - JWT ile güvenli API erişimi  
+  - MultipartFile desteği ile ürün görseli yükleme  
+- **Frontend**  
+  - React (Vite), Tailwind CSS, React Router v6  
+  - Axios üzerinden REST çağrıları  
+  - ProtectedRoute ile oturum kontrolleri  
 
-- **Ürün Yönetimi**: Ürünleri oluşturma, okuma, güncelleme ve silme.
-- **Kategori Yönetimi**: Ürünleri kategorilere ayırıma.
-- **Alışveriş Sepeti**: Sepete ürün ekleme, kaldırma ve güncelleme. - **Sipariş İşleme**: Kullanıcı siparişlerini ve sipariş geçmişini yönetme.
-- **Kullanıcı Kimlik Doğrulaması**: JWT ile güvenli oturum açma ve kayıt.
-- **Görüntü Yönetimi**: Ürün görüntülerini yükleme ve yönetme.
-- **API Güvenliği**: Uç nokta koruması için Entegre Spring Güvenliği.
+---
 
-## Kullanılan Teknolojiler
+## Sayfalar Ait Temel Özellikler
 
-- **Java**
-- **Spring Boot**
-- **Spring Security**
-- **JPA/Hibernate**
-- **MySQL**
-- **Maven**
+### 1. **Login**  
+- `/`  
+- Email & şifre ile giriş  
+- Başarılı giriş → token `localStorage`’a kaydedilir, `/products` yönlendirmesi  
+
+### 2. **Products**  
+- `/products`  
+- Tüm ürünleri ızgara görünümünde listeler  
+- “Add to cart” butonu ile sepete ekler  
+
+### 3. **Category List**  
+- `/category/:categoryName`  
+- Seçilen kategoriye ait ürünleri filtreler  
+
+### 4. **Cart**  
+- `/cart`  
+- Sepete eklenen ürünleri listeler
+- Sepetteki tüm ürünleri temizler "Clean Cart"
+- Ürünün miktar arttırma/azaltma, silme
+- “Proceed to Checkout” → sipariş oluşturma  
+
+### 5. **User Profile**  
+- `/user`  
+- Kişisel bilgiler, sipariş geçmişi  
+- “Edit Account” → Kullanıcı bilgilerini güncelleme  
+- “Delete Account” -> Kullanıcı hesabını silme
+- "Log out" -> Çıkış yapma
+- Admin için ekstra özellik içerin sekmeler: “Add Product” (Ürün ekleme), “Edit Product” (Ürünü Özeliklerini Değiştirme), “Delete Product”(Ürünü silme) 
+
+#### 5.1 **Add Product** (Admin)  
+- Yeni ürün + ürün resimi ekleme  
+
+#### 5.2 **Edit Product** (Admin)  
+- Mevcut ürünün bilgilerini güncelleme + resim değişimi  
+
+#### 5.3 **Delete Product** (Admin)  
+- Ürün silme
+
+---
+
+## Backend API Endpoints
+
+| Metot        | URL                              | Açıklama                                       | Yetki         |
+| ------------ | -------------------------------- | ---------------------------------------------- | ------------- |
+| POST         | `/api/v1/auth/login`             | Giriş → JWT döner                              | ―             |
+| GET          | `/api/v1/products`               | Tüm ürünleri listeler                          | Authenticated |
+| GET          | `/api/v1/products/{id}`          | Tek bir ürünü getirir                          | Authenticated |
+| POST         | `/api/v1/products/add`           | Ürün ekler                                     | `ROLE_ADMIN`  |
+| PUT          | `/api/v1/products/{id}`          | Ürün günceller                                 | `ROLE_ADMIN`  |
+| DELETE       | `/api/v1/products/{id}/delete`   | Ürün siler                                     | `ROLE_ADMIN`  |
+| POST         | `/api/v1/images/upload`          | Ürün resmi ekler                               | `ROLE_ADMIN`  |
+| PUT          | `/api/v1/images/{imageId}`       | Resim günceller                                | `ROLE_ADMIN`  |
+| GET          | `/api/v1/carts`                  | Kullanıcının sepetini getirir                  | Authenticated |
+| DELETE       | `/api/v1/carts`                  | Sepeti temizler                                | Authenticated |
+| POST         | `/api/v1/cartItems/add`          | Sepete ürün ekler                              | Authenticated |
+| PUT          | `/api/v1/cartItems/products/{productId}/cartItems` | Sepet miktar günceller       | Authenticated |
+| DELETE       | `/api/v1/cartItems/products/{productId}/cartItems` | Sepetten ürün siler          | Authenticated |
+| POST         | `/api/v1/orders/create`          | Sipariş oluşturur                              | Authenticated |
+| GET          | `/api/v1/users`                  | Authenticated kullanıcının bilgilerini getirir | Authenticated |
+| PUT          | `/api/v1/users`                  | Kullanıcı bilgilerini günceller                | Authenticated |
+| DELETE       | `/api/v1/users/delete`           | Hesap silme                                    | Authenticated |
+
+
