@@ -108,13 +108,13 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ## Kurulum ve Çalıştırma
 
-1. **Backend**  
+1. ** Backend**  
    ```bash
    cd backend
    mvn clean install
    mvn spring-boot:run
 
-2. # Frontend
+2. ** Frontend**
    ```bash
    cd client
    npm install
