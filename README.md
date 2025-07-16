@@ -6,7 +6,7 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ---
 
-## Mimari
+## Tech Stack
 - **Backend**  
   - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, MySQL  
   - JWT ile güvenli API erişimi  
@@ -18,7 +18,28 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ---
 
-## Sayfalar Ait Temel Özellikler
+## Temel Özellikler
+- *Ürün Yönetimi*  
+  - CRUD işlemleri (Admin)  
+  - Görsel yükleme/güncelleme  
+- *Kategori Yönetimi*  
+  - Ürünleri kategorilere ayırma  
+- *Alışveriş Sepeti*  
+  - Sepete ekleme/çıkarma/temizleme  
+  - Miktar güncelleme  
+- *Sipariş İşleme*  
+  - Sepeti siparişe çevirme  
+  - Sipariş geçmişi görüntüleme  
+- *Kullanıcı Kimlik Doğrulama*  
+  - Kayıt / Giriş (JWT)  
+  - Rol tabanlı erişim (ROLE_USER, ROLE_ADMIN)  
+- *API & Görsel Güvenliği*  
+  - Spring Security ile uç nokta koruması  
+  - MultipartFile + Blob + DTO dönüşümleri
+
+---
+
+## Frontend Sayfaları
 
 ### 1. **Login**  
 - `/`  
@@ -82,4 +103,20 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 | PUT          | `/api/v1/users`                  | Kullanıcı bilgilerini günceller                | Authenticated |
 | DELETE       | `/api/v1/users/delete`           | Hesap silme                                    | Authenticated |
 
+
+---
+
+## Kurulum ve Çalıştırma
+
+1. **Backend**  
+   ```bash
+   cd backend
+   mvn clean install
+   mvn spring-boot:run
+
+2. # Frontend
+   ```bash
+   cd client
+   npm install
+   npm run dev
 
