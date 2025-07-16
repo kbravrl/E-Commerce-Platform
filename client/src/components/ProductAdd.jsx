@@ -21,7 +21,7 @@ const ProductAdd = () => {
     setImages(e.target.files);
   };
 
-  const handleSubmit = async (e) => {
+  const addProduct = async (e) => {
     e.preventDefault();
 
     try {
@@ -58,19 +58,18 @@ const ProductAdd = () => {
           },
         });
       }
-
       alert("Product added successfully!");
-
       dispatch({ type: "RESET" });
       setImages([]);
     } catch (err) {
       console.error("Error adding product or uploading images:", err);
+      alert("Failed to add product.")
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <legend>Add Product</legend>
+    <form onSubmit={addProduct}>
+      <legend className="text-xl font-semibold text-gray-800">Add Product</legend>
       <InputField id="name" label="Name" type="text" onChange={handleChange} />
       <InputField
         id="brand"
@@ -123,7 +122,7 @@ const ProductAdd = () => {
           onChange={handleFileChange}
         />
       </div>
-      <button type="submit" className="btn btn-dark">
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mb-3 rounded transition">
         Submit
       </button>
     </form>

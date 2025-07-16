@@ -1,27 +1,33 @@
 import { ChevronRight } from "react-bootstrap-icons";
 
-const UserSidebar = ({ menuItems, activeSection, setActiveSection }) => {
-  return (
-    <div className="list-group">
-      {menuItems.map((item) => (
+const UserSidebar = ({ menuItems, activeSection, setActiveSection }) => (
+  <nav className="bg-white rounded-lg divide-y divide-gray-200 shadow-sm">
+    {menuItems.map((item) => {
+      const isActive = activeSection === item;
+      return (
         <button
           key={item}
-          className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center ${
-            activeSection === item ? "active bg-dark text-white" : ""
-          }`}
           onClick={() => setActiveSection(item)}
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "0",
-            textAlign: "left",
-          }}
+          className={`
+            w-full flex items-center justify-between
+            px-4 py-2 text-base font-medium
+            transition-colors duration-150
+            ${isActive
+              ? "bg-gray-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"}
+          `}
         >
           {item}
-          <ChevronRight />
+          <ChevronRight
+            className={`
+              w-5 h-7 transform transition-transform duration-150
+              ${isActive ? "rotate-0" : "rotate-180"}
+            `}
+          />
         </button>
-      ))}
-    </div>
-  );
-};
+      );
+    })}
+  </nav>
+);
 
 export default UserSidebar;

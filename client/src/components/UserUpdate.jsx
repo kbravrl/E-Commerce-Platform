@@ -8,7 +8,7 @@ const UserUpdate = ({ onUpdate }) => {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
 
-  const handleUpdate = (e) => {
+  const updateUser = (e) => {
     e.preventDefault();
     axios
       .put(
@@ -34,8 +34,8 @@ const UserUpdate = ({ onUpdate }) => {
   };
 
   return (
-    <form onSubmit={handleUpdate}>
-      <legend>Edit Account</legend>
+    <form onSubmit={updateUser}>
+      <legend className="text-xl font-semibold text-gray-800">Edit Account</legend>
       <InputField
         id={"firstName"}
         ref={firstNameRef}
@@ -48,7 +48,7 @@ const UserUpdate = ({ onUpdate }) => {
         label={"Last Name"}
         type={"text"}
       />
-      <button type="submit" className="btn btn-dark" onClick={handleUpdate}>
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 rounded transition">
         Submit
       </button>
     </form>

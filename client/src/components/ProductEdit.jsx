@@ -21,7 +21,7 @@ const ProductEdit = () => {
     setImages(e.target.files);
   };
 
-  const handleSubmit = async (e) => {
+  const editProduct = async (e) => {
     e.preventDefault();
 
     try {
@@ -55,19 +55,19 @@ const ProductEdit = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-
         alert("Product uploaded successfully!");
       }
       dispatch({ type: "RESET" });
       setImages([]);
     } catch (err) {
       console.error("Error updating product or uploading images:", err);
+      alert("Failed to edit product.")
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <legend>Edit Product</legend>
+    <form onSubmit={editProduct}>
+      <legend className="text-xl font-semibold text-gray-800">Edit Product</legend>
       <InputField
         id="id"
         label="Product ID"
@@ -126,8 +126,8 @@ const ProductEdit = () => {
           onChange={handleFileChange}
         />
       </div>
-      <button type="submit" className="btn btn-dark">
-        Update
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mb-3 rounded transition">
+        Submit
       </button>
     </form>
   );

@@ -5,7 +5,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const UserDelete = () => {
   const token = localStorage.getItem("token");
 
-  const deleteAccount = () => {
+  const deleteUser = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your account?"
     );
@@ -29,13 +29,13 @@ const UserDelete = () => {
   };
 
   return (
-    <div className="mb-3">
-      <h5>Delete Account</h5>
-      <p>You are about to delete your account.</p>
-      <button type="submit" className="btn btn-dark" onClick={deleteAccount}>
+    <form onSubmit={deleteUser}>
+      <legend className="text-xl font-semibold text-gray-800">Delete Account</legend>
+      <p className="text-gray-800">You are about to delete your account.</p>
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 rounded transition">
         Submit
       </button>
-    </div>
+    </form>
   );
 };
 

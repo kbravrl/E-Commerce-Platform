@@ -1,24 +1,24 @@
 const UserDetails = ({ userDetails }) => {
   return (
-    <>
-      <h4>Account Details</h4>
-      <table className="table table-borderless">
-        <tbody>
-          <tr>
-            <th scope="row">First Name :</th>
-            <td>{userDetails.firstName}</td>
+    <section className="bg-white rounded-lg shadow p-6">
+      <h4 className="text-xl font-semibold mb-4 text-gray-800">Account Details</h4>
+      <table className="w-full text-left">
+        <tbody className="divide-y divide-gray-200">
+          <tr className="py-2">
+            <th className="px-0 py-2 font-medium text-gray-700">First Name:</th>
+            <td className="px-0 py-2 text-gray-800">{userDetails.firstName}</td>
           </tr>
-          <tr>
-            <th scope="row">Last Name :</th>
-            <td>{userDetails.lastName}</td>
+          <tr className="py-2">
+            <th className="px-0 py-2 font-medium text-gray-700">Last Name:</th>
+            <td className="px-0 py-2 text-gray-800">{userDetails.lastName}</td>
           </tr>
-          <tr>
-            <th scope="row">Email :</th>
-            <td>{userDetails.email}</td>
+          <tr className="py-2">
+            <th className="px-0 py-2 font-medium text-gray-700">Email:</th>
+            <td className="px-0 py-2 text-gray-800">{userDetails.email}</td>
           </tr>
         </tbody>
       </table>
-    </>
+    </section>
   );
 };
 

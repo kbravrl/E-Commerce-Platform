@@ -55,20 +55,20 @@ const UserProfile = () => {
   return (
     <>
       <Navbar />
-      <div className="container mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2>User Profile</h2>
+      <div className="container mx-auto px-4 mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-semibold text-gray-600">User Profile</h2>
         </div>
-        <div className="row">
-          <div className="col-md-3 mt-3">
+        <div className="flex flex-col md:flex-row">
+          <aside className="md:w-1/4 w-full mb-6 md:mb-0">
             <UserSidebar
               menuItems={finalMenuItems}
               activeSection={activeSection}
               setActiveSection={setActiveSection}
             />
-          </div>
-          <div className="col-md-9" style={{ paddingLeft: "70px" }}>
-            <div className="mb-5">
+          </aside>
+          <main className="md:w-3/4 w-full md:pl-12">
+            <div className="space-y-6">
               {activeSection === "Edit Account" ? (
                 <UserUpdate onUpdate={setUser} />
               ) : activeSection === "Delete Account" ? (
@@ -80,14 +80,14 @@ const UserProfile = () => {
               ) : activeSection === "Delete Product" ? (
                 <ProductDelete />
               ) : (
-                <div>
+                <div className="space-y-6">
                   <UserDetails userDetails={user} />
                   <OrderLists orders={orders} />
-                  <div className="text-start mt-4">
+
+                  <div>
                     <button
-                      type="button"
-                      className="btn btn-warning mt-3 px-5"
                       onClick={handleLogout}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-semibold py-2 px-10 rounded mb-3 transition"
                     >
                       Log Out
                     </button>
@@ -95,7 +95,7 @@ const UserProfile = () => {
                 </div>
               )}
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </>

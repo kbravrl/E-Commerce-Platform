@@ -4,10 +4,10 @@ import InputField from "./InputField";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-const DeleteProduct = () => {
+const ProductDelete = () => {
   const [productId, setProductId] = useState("");
 
-  const productDelete = async () => {
+  const deleteProduct = async () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`${baseUrl}/products/${productId}`, {
@@ -24,8 +24,8 @@ const DeleteProduct = () => {
   };
 
   return (
-    <form onSubmit={productDelete}>
-      <legend>Delete Product</legend>
+    <form onSubmit={deleteProduct}>
+     <legend className="text-xl font-semibold text-gray-800">Delete Product</legend>
       <InputField
         id={"productId"}
         label={"Product ID"}
@@ -33,10 +33,10 @@ const DeleteProduct = () => {
         onChange={(e) => setProductId(e.target.value)}
         required
       />
-      <button type="submit" className="btn btn-dark">
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 rounded transition">
         Submit
       </button>
     </form>
   );
 };
-export default DeleteProduct;
+export default ProductDelete;
