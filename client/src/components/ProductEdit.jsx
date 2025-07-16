@@ -2,6 +2,7 @@ import { useReducer, useState } from "react";
 import axios from "axios";
 import InputField from "./InputField";
 import { initialState, productReducer } from "../hooks/productEditReducer";
+import ProductForm from "./ProductForm";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -61,7 +62,7 @@ const ProductEdit = () => {
       setImages([]);
     } catch (err) {
       console.error("Error updating product or uploading images:", err);
-      alert("Failed to edit product.")
+      alert("Failed to edit product.");
     }
   };
 
@@ -74,59 +75,11 @@ const ProductEdit = () => {
         type="number"
         onChange={handleChange}
       />
-      <InputField id="name" label="Name" type="text" onChange={handleChange} />
-      <InputField
-        id="brand"
-        label="Brand"
-        type="text"
-        onChange={handleChange}
-      />
-      <div className="mb-3">
-        <label htmlFor="price">Price</label>
-        <input
-          type="number"
-          id="price"
-          className="form-control"
-          onChange={handleChange}
-          min="0"
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="inventory">Inventory</label>
-        <input
-          type="number"
-          id="inventory"
-          className="form-control"
-          onChange={handleChange}
-          min="0"
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          className="form-control"
-          onChange={handleChange}
-          required
-        ></textarea>
-      </div>
-      <InputField
-        id="category"
-        label="Category"
-        type="text"
-        onChange={handleChange}
-      />
-      <div className="mb-3">
-        <label htmlFor="images">Images (optional)</label>
-        <input
-          type="file"
-          id="images"
-          className="form-control"
-          multiple
-          onChange={handleFileChange}
-        />
-      </div>
-      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mb-3 rounded-md transition">
+      <ProductForm handleChange={handleChange} handleFileChange={handleFileChange} />
+      <button
+        type="submit"
+        className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mb-2 rounded-md transition"
+      >
         Submit
       </button>
     </form>
