@@ -27,11 +27,15 @@ const Order = () => {
   return (
     <>
       <Navbar />
-      {orderDetails.map((orderSummary) => (
-        <div key={orderSummary.id}>
-          <OrderDetails orderSummary={orderSummary} />
+      <div className="bg-gray-100 min-h-screen py-10">
+        <div className="max-w-6xl mx-auto px-4">
+          {orderDetails.map((orderSummary) => (
+            <div key={orderSummary.id}>
+              <OrderDetails orderSummary={orderSummary} />
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </>
   );
 };
