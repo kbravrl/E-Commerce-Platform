@@ -28,7 +28,7 @@ const Order = () => {
     <>
       <Navbar />
       {orderDetails.map((orderSummary) => (
-        <div key={orderSummary.id} className="card-body">
+        <div key={orderSummary.id}>
           <OrderDetails orderSummary={orderSummary} />
         </div>
       ))}

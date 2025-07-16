@@ -1,30 +1,27 @@
-const OrderSummary = ({ orderSummary }) => {
+const OrderSummaryDetail = ({ orderSummary }) => {
   return (
-    <div className="card mb-4">
-      <div className="card-body row text-center">
-        <div className="col-md-3 mb-2">
-          <strong>Order Date:</strong>
-          <br />
+    <div className="mb-6 bg-white rounded shadow">
+      <div className="flex flex-wrap text-center p-4">
+        <div className="w-full sm:w-1/2 md:w-1/4 mb-2 px-2">
+          <span className="font-semibold block">ORDER DATE</span>
           {orderSummary.orderDate}
         </div>
-        <div className="col-md-3 mb-2">
-          <strong>Status:</strong>
-          <br />
+        <div className="w-full sm:w-1/2 md:w-1/4 mb-2 px-2">
+          <span className="font-semibold block">STATUS</span>
           {orderSummary.statusDisplayName}
         </div>
-        <div className="col-md-3 mb-2">
-          <strong>Estimated Delivery:</strong>
-          <br />
+        <div className="w-full sm:w-1/2 md:w-1/4 mb-2 px-2">
+          <span className="font-semibold block">ESTİMATED DELIVERY</span>
           {orderSummary.estimatedDeliveryDate}
         </div>
-        <div className="col-md-3 mb-2">
-          <strong>Total Amount</strong>
-          <br />
-          {`$${orderSummary.totalAmount}`}
+        <div className="w-full sm:w-1/2 md:w-1/4 mb-2 px-2">
+          <span className="font-semibold block">TOTAL AMOUNT</span>
+          ${orderSummary.totalAmount}
         </div>
       </div>
-      <hr />
+      <hr className="border-gray-200" />
     </div>
   );
 };
-export default OrderSummary;
+
+export default OrderSummaryDetail;
