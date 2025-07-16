@@ -44,19 +44,23 @@ const ProductList = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto py-5">
-        <h2 className="text-3xl font-semibold text-center mb-5">{categoryName}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {productsByCategory.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              handleAddToCart={handleAddToCart}
-            />
-          ))}
+      <div className="bg-gray-100 min-h-screen py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-semibold text-center mb-8">
+            {categoryName}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {productsByCategory.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                handleAddToCart={handleAddToCart}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </>        
+    </>
   );
 };
 
