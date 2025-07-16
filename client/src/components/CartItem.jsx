@@ -6,7 +6,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const CartItem = ({ item, onRemove, handleQuantityChange }) => {
   const [quantity, setQuantity] = useState(item.quantity);
-  
+
   const token = localStorage.getItem("token");
 
   const updateQuantity = async (delta) => {
@@ -28,65 +28,40 @@ const CartItem = ({ item, onRemove, handleQuantityChange }) => {
   };
 
   return (
-    <>
-      <div className="card-item p-3 shadow-sm">
-        <div className="row align-items-center">
-          <div className="col-md-2">
-            <img
-              src={`http://localhost:9191${item.product.images[0].downloadUrl}`}
-              alt={item.product.name}
-              className="card-image"
-            />
-          </div>
-          <div className="col-md-4">
-            <h6 className="mb-1">{item.product.name}</h6>
-            <p className="text-muted mb-0">{item.product.description}</p>
-          </div>
-          <div className="col-md-3">
-            <div className="col-md-3">
-              <div className="d-flex align-items-center gap-2">
-                <button
-                  className="quantity-btn"
-                  onClick={() => updateQuantity(-1)}
-                >
-                  -
-                </button>
-                <input
-                  type="number"
-                  className="quantity-input"
-                  value={quantity}
-                  readOnly
-                />
-                <button
-                  className="quantity-btn"
-                  onClick={() => updateQuantity(1)}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-2">
-            <span className="fw-bold">{`$${item.product.price}`}</span>
-          </div>
-          <div className="col-md-1 d-flex justify-content-center align-items-center">
-            <button
-              className="btnbtn p-0 border-0 bg-transparent"
-              onClick={() => onRemove(item.product.id)}
-              title="Remove item"
-            >
-              <img
-                className="mb-4"
-                src={trashIcon}
-                alt="Trash Icon"
-                width="16"
-                height="16"
-              />
-            </button>
-          </div>
-        </div>
+    <div className="bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+      <img
+        src={`http://localhost:9191${item.product.images[0]?.downloadUrl}`}
+        alt={item.product.name}
+        className="w-24 h-24 object-cover rounded"
+      />
+      <div className="flex-1">
+        <h6 className="font-medium">{item.product.name}</h6>
+        <p className="text-gray-500 text-sm">{item.product.description}</p>
       </div>
-    </>
+      <div className="flex items-center space-x-2">
+        <button
+          onClick={() => updateQuantity(-1)}
+          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100"
+        >
+          −
+        </button>
+        <span className="w-10 text-center">{quantity}</span>
+        <button
+          onClick={() => updateQuantity(1)}
+          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100"
+        >
+          +
+        </button>
+      </div>
+      <div className="w-20 text-right font-semibold">${item.product.price}</div>
+      <button
+        onClick={() => onRemove(item.product.id)}
+        className="p-1 hover:bg-red-100 rounded"
+        title="Remove item"
+      >
+        <img src={trashIcon} alt="Remove" className="w-5 h-5" />
+      </button>
+    </div>
   );
 };
 

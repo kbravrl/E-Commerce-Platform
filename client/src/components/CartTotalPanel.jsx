@@ -1,31 +1,33 @@
-const CartTotalPanel = ({cartTotalAmount, shipping, handleCheckout}) => {
+const CartTotalPanel = ({ cartTotalAmount, shipping, handleCheckout }) => {
   return (
-      <div className="col-lg-4">
-        <div className="summary-card p-4 shadow-sm">
-          <h5 className="mb-4">Order Summary</h5>
-          <div className="d-flex justify-content-between mb-3">
-            <span className="text-muted">Subtotal</span>
-            <span>{cartTotalAmount}</span>
-          </div>
-          <div className="d-flex justify-content-between mb-3">
-            <span className="text-muted">Shipping</span>
-            <span>{shipping}</span>
-          </div>
-          <hr />
-          <div className="d-flex justify-content-between mb-4">
-            <span className="fw-bold">Total</span>
-            <span className="fw-bold">{cartTotalAmount + shipping}</span>
-          </div>
-          <br />
-          <button className="btn btn-primary checkout-btn w-100 mb-3" onClick={handleCheckout}>
-            Proceed to Checkout
-          </button>
-          <div className="d-flex justify-content-center gap-2">
-            <i className="bi bi-shield-check text-success"></i>
-            <small className="text-muted">Secure checkout</small>
-          </div>
+    <div className="mt-8 lg:mt-0 lg:sticky lg:top-20">
+      <div className="bg-white rounded-lg shadow p-6 space-y-4">
+        <h5 className="text-lg font-semibold">Order Summary</h5>
+        <div className="flex justify-between text-gray-600">
+          <span>Subtotal</span>
+          <span>${cartTotalAmount}</span>
         </div>
+        <div className="flex justify-between text-gray-600">
+          <span>Shipping</span>
+          <span>${shipping}</span>
+        </div>
+        <hr />
+        <div className="flex justify-between font-semibold text-gray-800">
+          <span>Total</span>
+          <span>${cartTotalAmount + shipping}</span>
+        </div>
+        <button
+          onClick={handleCheckout}
+          className="
+            w-full py-2 rounded text-white font-medium
+            bg-indigo-600 hover:bg-indigo-700
+            transform hover:-translate-y-0.5 transition
+          "
+        >
+          Proceed to Checkout
+        </button>
       </div>
+    </div>
   );
 };
 

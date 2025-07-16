@@ -3,7 +3,6 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import CartItem from "../../components/CartItem";
 import CartTotalPanel from "../../components/CartTotalPanel";
-import "./Cart.css";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -84,36 +83,39 @@ const Cart = () => {
   };
 
   return (
-    <>
+     <>
       <Navbar />
-      <div className="cart-wrapper">
-        <div className="container">
-          <div className="row g-4">
-            <div className="col-lg-8">
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="mb-0">Shopping Cart</h4>
-              </div>
-              <div className="d-flex flex-column gap-3">
-                {cartItems.map((cartItem) => (
-                  <CartItem
-                    key={cartItem.id}
-                    item={cartItem}
-                    onRemove={handleRemove}
-                    handleQuantityChange={fetchCart}
-                  />
-                ))}
-              </div>
-              <div className="text-start mt-2">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={handleClearCart}
-                >
-                  Clean Cart
-                </button>
-              </div>
+      <div className="bg-gray-100 min-h-screen py-10">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font-semibold mb-6">Shopping Cart</h2>
+          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              {cartItems.length > 0 ? (
+                <>
+                  {cartItems.map((item) => (
+                    <CartItem
+                      key={item.id}
+                      item={item}
+                      onRemove={handleRemove}
+                      handleQuantityChange={fetchCart}
+                    />
+                  ))}
+                  <button
+                    onClick={handleClearCart}
+                    className="px-4 py-2 mt-2 rounded bg-red-600 hover:bg-red-700 text-white font-medium transform hover:-translate-y-0.5 transition"
+                  >
+                    Clear Cart
+                  </button>
+                </>
+              ) : (
+                <p>Cart is empty</p>
+              )}
             </div>
-            <CartTotalPanel shipping={shipping} cartTotalAmount={totalAmount} handleCheckout={handleCheckout} />
+            <CartTotalPanel
+              cartTotalAmount={totalAmount}
+              shipping={shipping}
+              handleCheckout={handleCheckout}
+            />
           </div>
         </div>
       </div>
