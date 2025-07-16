@@ -33,7 +33,7 @@ const ProductDelete = () => {
         onChange={(e) => setProductId(e.target.value)}
         required
       />
-      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 rounded transition">
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 rounded-md transition">
         Submit
       </button>
     </form>

@@ -1,7 +1,7 @@
 const OrderLists = ({ orders }) => {
   return (
     <div className="mt-4">
-      <h5 className="text-lg font-semibold mb-2 text-gray-800">Orders</h5>
+      <h5 className="text-lg font-semibold mb-2 ml-4 text-gray-800">Orders</h5>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-lg shadow">
           <thead className="bg-gray-100">

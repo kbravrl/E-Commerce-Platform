@@ -87,7 +87,7 @@ const Cart = () => {
       <Navbar />
       <div className="bg-gray-100 min-h-screen py-10">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-semibold mb-6">Shopping Cart</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Shopping Cart</h2>
           <div className="lg:grid lg:grid-cols-3 lg:gap-8">
             <div className="lg:col-span-2 space-y-4">
               {cartItems.length > 0 ? (

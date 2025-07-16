@@ -55,10 +55,8 @@ const UserProfile = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-4 mt-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-semibold text-gray-600">User Profile</h2>
-        </div>
+      <div className="container mx-auto px-4 mt-6 max-w-6xl">
+        <h2 className="text-2xl mb-5 font-semibold text-gray-800">User Profile</h2>
         <div className="flex flex-col md:flex-row">
           <aside className="md:w-1/4 w-full mb-6 md:mb-0">
             <UserSidebar

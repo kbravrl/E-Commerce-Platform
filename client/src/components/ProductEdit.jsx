@@ -126,7 +126,7 @@ const ProductEdit = () => {
           onChange={handleFileChange}
         />
       </div>
-      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mb-3 rounded transition">
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mb-3 rounded-md transition">
         Submit
       </button>
     </form>

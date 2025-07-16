@@ -31,8 +31,8 @@ const UserDelete = () => {
   return (
     <form onSubmit={deleteUser}>
       <legend className="text-xl font-semibold text-gray-800">Delete Account</legend>
-      <p className="text-gray-800">You are about to delete your account.</p>
-      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 rounded transition">
+      <p className="text-gray-800 mt-2">You are about to delete your account.</p>
+      <button type="submit" className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-medium px-7 py-2 mt-3 rounded-md transition">
         Submit
       </button>
     </form>
