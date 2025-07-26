@@ -3,16 +3,19 @@ package com.example.dreamshops.service.user;
 import com.example.dreamshops.dto.UserDto;
 import com.example.dreamshops.exceptions.AlreadyExistsException;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
+import com.example.dreamshops.kafka.producer.UserProducer;
 import com.example.dreamshops.model.User;
 import com.example.dreamshops.repository.UserRepository;
 import com.example.dreamshops.request.CreateUserRequest;
 import com.example.dreamshops.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
+import com.example.dreamshops.kafka.event.UserDeletedEvent;
 
 import java.util.Optional;
 
@@ -22,6 +25,9 @@ public class UserService implements IUserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserProducer userProducer;
+
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
@@ -54,11 +60,20 @@ public class UserService implements IUserService{
 
     @Override
     public void deleteUser(Long userId) {
-        userRepository.findById(userId)
-                .ifPresentOrElse(userRepository:: delete, () -> {
-                    throw new ResourceNotFoundException("User not found with id: " + userId);
-                });
+        userRepository.findById(userId).ifPresentOrElse(user -> {
+            userRepository.delete(user);
 
+            UserDeletedEvent event = new UserDeletedEvent(
+                    user.getId().toString(),
+                    user.getEmail(),
+                    user.getFirstName(),
+                    user.getLastName()
+            );
+            userProducer.sendUserDeletedEvent(event);
+
+        }, () -> {
+            throw new ResourceNotFoundException("User not found with id: " + userId);
+        });
     }
 
     @Override
