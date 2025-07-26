@@ -3,6 +3,7 @@ package com.example.dreamshops.service.order;
 import com.example.dreamshops.dto.OrderDto;
 import com.example.dreamshops.enums.OrderStatus;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
+import com.example.dreamshops.kafka.producer.OrderProducer;
 import com.example.dreamshops.model.*;
 import com.example.dreamshops.repository.OrderRepository;
 import com.example.dreamshops.repository.ProductRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import com.example.dreamshops.service.cart.CartService;
+import com.example.dreamshops.kafka.event.OrderEvent;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,6 +28,8 @@ public class OrderService implements IOrderService {
     private final IUserService userService;
     private final ModelMapper mabelMapper;
     private final ProductRepository productRepository;
+    private final OrderProducer orderProducer;
+
 
     @Transactional
     @Override
@@ -38,8 +42,18 @@ public class OrderService implements IOrderService {
         order.setTotalAmount(calculateTotalAmount(orderItems));
         Order savedOrder = orderRepository.save(order);
         cartService.clearCart();
-        return convertToDto(savedOrder);
 
+        OrderEvent event = new OrderEvent(
+                savedOrder.getOrderId(),
+                savedOrder.getUser().getId(),
+                savedOrder.getOrderDate(),
+                savedOrder.getEstimatedDeliveryDate(),
+                savedOrder.getTotalAmount(),
+                savedOrder.getOrderStatus().name()
+        );
+
+        orderProducer.sendOrderEvent(event);
+        return convertToDto(savedOrder);
     }
 
     private Order createOrder(Cart cart) {
