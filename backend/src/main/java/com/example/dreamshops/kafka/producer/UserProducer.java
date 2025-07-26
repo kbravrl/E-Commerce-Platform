@@ -18,9 +18,9 @@ public class UserProducer {
         try {
             String json = objectMapper.writeValueAsString(event);
             kafkaTemplate.send(TOPIC, event.getUserId(), json);
-            System.out.printf("📤 UserDeletedEvent Kafka'ya gönderildi: %s%n", json);
+            System.out.printf("📤 UserDeletedEvent sent to Kafka: %s%n", json);
         } catch (Exception e) {
-            System.err.println("❌ UserProducer gönderim hatası: " + e.getMessage());
+            System.err.println("❌ UserProducer error: " + e.getMessage());
         }
     }
 }
