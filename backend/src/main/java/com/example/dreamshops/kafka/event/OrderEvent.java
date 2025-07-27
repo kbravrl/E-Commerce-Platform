@@ -17,4 +17,6 @@ public class OrderEvent {
     private LocalDate estimatedDeliveryDate;
     private BigDecimal totalAmount;
     private String orderStatus;
+    private String userEmail;
+    private String userFirstName;
 }

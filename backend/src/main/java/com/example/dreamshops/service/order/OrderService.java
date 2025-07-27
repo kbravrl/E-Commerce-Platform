@@ -3,7 +3,6 @@ package com.example.dreamshops.service.order;
 import com.example.dreamshops.dto.OrderDto;
 import com.example.dreamshops.enums.OrderStatus;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
-import com.example.dreamshops.kafka.producer.EmailProducer;
 import com.example.dreamshops.kafka.producer.OrderProducer;
 import com.example.dreamshops.model.*;
 import com.example.dreamshops.repository.OrderRepository;
@@ -12,11 +11,9 @@ import com.example.dreamshops.service.user.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.dreamshops.service.cart.CartService;
 import com.example.dreamshops.kafka.event.OrderEvent;
-import com.example.dreamshops.kafka.event.EmailEvent;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -32,8 +29,6 @@ public class OrderService implements IOrderService {
     private final ModelMapper mabelMapper;
     private final ProductRepository productRepository;
     private final OrderProducer orderProducer;
-    @Autowired
-    private EmailProducer emailProducer;
 
     @Transactional
     @Override
@@ -53,15 +48,10 @@ public class OrderService implements IOrderService {
                 savedOrder.getOrderDate(),
                 savedOrder.getEstimatedDeliveryDate(),
                 savedOrder.getTotalAmount(),
-                savedOrder.getOrderStatus().name()
+                savedOrder.getOrderStatus().name(),
+                savedOrder.getUser().getEmail(),
+                savedOrder.getUser().getFirstName()
         );
-
-        emailProducer.sendEmailEvent(new EmailEvent(
-                user.getEmail(),
-                "Your Order Has Been Received ✔️",
-                "Hello " + user.getFirstName() + ",\n\nYour order has been created successfully..",
-                "ORDER_CONFIRMATION"
-        ));
 
         orderProducer.sendOrderEvent(event);
         return convertToDto(savedOrder);
