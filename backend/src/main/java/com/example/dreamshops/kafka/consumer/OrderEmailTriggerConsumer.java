@@ -19,7 +19,7 @@ public class OrderEmailTriggerConsumer {
     private final ObjectMapper objectMapper;
     private final EmailProducer emailProducer;
 
-    @KafkaListener(topics = "order-topic", groupId = "email-trigger-group")
+    @KafkaListener(topics = "order-topic", groupId = "order-email-trigger-group")
     public void listen(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             OrderEvent orderEvent = objectMapper.readValue(message, OrderEvent.class);
