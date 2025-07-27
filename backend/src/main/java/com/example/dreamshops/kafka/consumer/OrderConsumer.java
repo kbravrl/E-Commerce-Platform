@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
 public class OrderConsumer {
     @KafkaListener(topics = "order-topic", groupId = "order-group")
     public void listen(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-        System.out.println("OrderConsumer received OrderEvent 📥 Message: " + message + " | 🔑 Key: " + key);
+        System.out.println("📩 OrderConsumer received OrderEvent. Message is: " + message + " | 🔑 Key: " + key);
     }
 }

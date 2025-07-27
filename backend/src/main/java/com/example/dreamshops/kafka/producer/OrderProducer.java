@@ -18,9 +18,9 @@ public class OrderProducer {
         try {
             String jsonMessage = objectMapper.writeValueAsString(event);
             kafkaTemplate.send(TOPIC, event.getUserId().toString(), jsonMessage);
-            System.out.println("✅ Kafka message sent: " + jsonMessage);
+            System.out.println("📤 OrderEvent sent to Kafka: " + jsonMessage);
         } catch (JsonProcessingException e) {
-            System.err.println("❌ Kafka message could not be converted to JSON: " + e.getMessage());
+            System.err.println("❌ OrderProducer error: " + e.getMessage());
         }
     }
 }

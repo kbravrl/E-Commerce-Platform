@@ -22,11 +22,11 @@ public class UserEmailTriggerConsumer {
     public void listen(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             UserDeletedEvent event = objectMapper.readValue(message, UserDeletedEvent.class);
-            System.out.printf("📥 UserEmailTriggerConsumer received UserEvent: %s%n", event);
+            System.out.printf("📩 UserEmailTriggerConsumer received UserEvent: %s%n", event);
 
             EmailEvent emailEvent = new EmailEvent(
                     event.getEmail(),
-                    "Your Account Has Been Deleted",
+                    "Your Account Has Been Deleted ✔️",
                     "Hello " + event.getFirstName() + ",\n\nYour account has been successfully deleted..",
                     "ACCOUNT_DELETED"
             );

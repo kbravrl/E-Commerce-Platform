@@ -19,7 +19,7 @@ public class EmailProducer {
             kafkaTemplate.send(TOPIC, event.getTo(), json);
             System.out.printf("📤 EmailEvent sent to Kafka: %s%n", json);
         } catch (JsonProcessingException e) {
-            System.err.println("❌ EmailEvent could not be converted to JSON: " + e.getMessage());
+            System.err.println("❌ EmailEvent error: " + e.getMessage());
         }
     }
 }

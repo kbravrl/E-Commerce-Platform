@@ -11,6 +11,6 @@ public class UserConsumer {
 
     @KafkaListener(topics = "user-topic", groupId = "user-group")
     public void listen(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-        System.out.printf("UserConsumer received UserEvent 📥 Message: " + message + " | 🔑 Key: " + key);
+        System.out.printf("📩 UserConsumer received UserEvent. Message is: " + message + " | 🔑 Key: " + key);
     }
 }

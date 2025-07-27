@@ -23,7 +23,7 @@ public class OrderEmailTriggerConsumer {
     public void listen(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             OrderEvent orderEvent = objectMapper.readValue(message, OrderEvent.class);
-            System.out.printf("📥 EmailTriggerConsumer received OrderEvent: %s%n", orderEvent);
+            System.out.printf("📩 OrderEmailTriggerConsumer received OrderEvent: %s%n", orderEvent);
 
             EmailEvent emailEvent = new EmailEvent(
                     orderEvent.getUserEmail(),
@@ -35,7 +35,7 @@ public class OrderEmailTriggerConsumer {
             emailProducer.sendEmailEvent(emailEvent);
 
         } catch (Exception e) {
-            System.err.println("❌ EmailTriggerConsumer error: " + e.getMessage());
+            System.err.println("❌ OrderEmailTriggerConsumer error: " + e.getMessage());
         }
     }
 }
