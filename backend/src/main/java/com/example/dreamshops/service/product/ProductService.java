@@ -4,6 +4,8 @@ import com.example.dreamshops.dto.ImageDto;
 import com.example.dreamshops.dto.ProductDto;
 import com.example.dreamshops.exceptions.AlreadyExistsException;
 import com.example.dreamshops.exceptions.ProductNotFoundException;
+import com.example.dreamshops.kafka.event.ProductEvent;
+import com.example.dreamshops.kafka.producer.ProductProducer;
 import com.example.dreamshops.model.Category;
 import com.example.dreamshops.model.Image;
 import com.example.dreamshops.model.Product;
@@ -26,6 +28,7 @@ public class ProductService implements IProductService {
     private final CategoryRepository categoryRepository;
     private final ImageRepository imageRepository;
     private final ModelMapper modelMapper;
+    private final ProductProducer productProducer;
 
     @Override
     public Product getProductById(Long id) {
@@ -43,7 +46,9 @@ public class ProductService implements IProductService {
                     Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
                 });
-        return productRepository.save(createProduct(request, category));
+        Product savedProduct = productRepository.save(createProduct(request, category));
+        publishProductEvent(savedProduct, "ADDED");
+        return savedProduct;
     }
 
     public boolean productExists(String name, String brand) {
@@ -63,11 +68,14 @@ public class ProductService implements IProductService {
 
     @Override
     public Product updateProduct(ProductUpdateRequest request, Long productId) {
-        return productRepository.findById(productId)
+        Product updatedProduct = productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
                 .map(productRepository::save)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + productId));
 
+
+        publishProductEvent(updatedProduct, "UPDATED");
+        return updatedProduct;
     }
 
     private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request) {
@@ -84,8 +92,24 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProductById(Long id) {
-        productRepository.findById(id).ifPresentOrElse(productRepository::delete, () -> {throw new ProductNotFoundException("Product not found with id: " + id);});
+        productRepository.findById(id).ifPresentOrElse(product -> {
+            productRepository.delete(product);
+            publishProductEvent(product, "DELETED");
+        }, () -> {
+            throw new ProductNotFoundException("Product not found with id: " + id);
+        });
     }
+
+    private void publishProductEvent(Product product, String eventType) {
+        ProductEvent event = new ProductEvent(
+                product.getId(),
+                product.getName(),
+                product.getBrand(),
+                eventType
+        );
+        productProducer.sendProductEvent(event);
+    }
+
 
     @Override
     public List<ProductDto> getAllProducts() {
