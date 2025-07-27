@@ -8,7 +8,30 @@ import Cart from './pages/cart/Cart';
 import User from "./pages/user/User";
 import ProtectedRoute from './components/ProtectedRoute';
 
+import { useEffect } from "react";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
+
 const App = () => {
+  useEffect(() => {
+    const client = new Client({
+      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+      onConnect: () => {
+        client.subscribe("/topic/products", (message) => {
+          const notification = JSON.parse(message.body);
+          console.log("📢 New Notification:", notification);
+        });
+      },
+    });
+
+    client.activate();
+
+    // Close the connection if the component is unmounted
+    return () => {
+      client.deactivate();
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -24,6 +47,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    
   );
 };
 
