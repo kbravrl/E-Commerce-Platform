@@ -3,6 +3,7 @@ package com.example.dreamshops.security.config;
 import com.example.dreamshops.security.jwt.AuthTokenFilter;
 import com.example.dreamshops.security.jwt.JwtAuthEntryPoint;
 import com.example.dreamshops.security.user.ShopUserDetailsService;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.micrometer.common.lang.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.util.List;
 
@@ -39,6 +42,14 @@ public class ShopConfig {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return mapper;
     }
 
     @Bean
