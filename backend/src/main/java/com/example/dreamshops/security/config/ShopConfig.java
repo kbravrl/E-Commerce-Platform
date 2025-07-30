@@ -80,7 +80,9 @@ public class ShopConfig {
         http.cors().and().csrf(AbstractHttpConfigurer:: disable)
              .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
              .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-             .authorizeHttpRequests(auth -> auth.requestMatchers(SECURED_URLS.toArray(String[]::new)).authenticated()
+             .authorizeHttpRequests(auth -> auth
+                     .requestMatchers(SECURED_URLS.toArray(String[]::new)).authenticated()
+                     .requestMatchers("/app/**", "/topic/products").permitAll()
                      .anyRequest().permitAll());
         http.authenticationProvider(daoAuthenticationProvider());
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -94,7 +96,7 @@ public class ShopConfig {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "http://localhost:5173")
+                        .allowedOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:9191")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
