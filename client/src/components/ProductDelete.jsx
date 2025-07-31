@@ -7,7 +7,8 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const ProductDelete = () => {
   const [productId, setProductId] = useState("");
 
-  const deleteProduct = async () => {
+  const deleteProduct = async (e) => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`${baseUrl}/products/${productId}`, {
