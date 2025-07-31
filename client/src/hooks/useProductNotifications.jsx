@@ -1,25 +1,25 @@
 import { useEffect } from "react";
 import { Client } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 function useProductNotifications() {
   useEffect(() => {
     const stompClient = new Client({
-      webSocketFactory: () => {
-        // We directly pass the WebSocket object to STOMP
-        return new WebSocket("ws://localhost:9191/ws");
-      },
+      webSocketFactory: () => new WebSocket("ws://localhost:9191/ws"),
+      debug: (msg) => console.log(msg),
       onConnect: () => {
         console.log("🟢 STOMP connection established.");
+
         stompClient.subscribe("/topic/products", (msg) => {
           const data = JSON.parse(msg.body);
           console.log("🔔 WebSocket Notification:", data);
         });
       },
-      onWebSocketError: (error) => {
-        console.error("❌ WebSocket connection error:", error);
+      onWebSocketError: (err) => {
+        console.error("❌ WebSocket error:", err);
       },
       onStompError: (frame) => {
-        console.error("🔴 STOMP protocol error:", frame);
+        console.error("🔴 STOMP error:", frame);
       },
     });
 
