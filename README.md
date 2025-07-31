@@ -106,6 +106,32 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ---
 
+## Event-Driven Akışlar
+
+### 🛒 Sipariş Oluşturma Akışı (Order Flow)
+1. `OrderService` → `OrderProducer` → Kafka: `order-topic` (OrderEvent)
+2. `OrderConsumer` → **Sadece log** (OrderEvent alındı)
+3. `EmailTriggerConsumer` → `OrderEvent` → `EmailEvent` üretir
+4. `EmailProducer` → Kafka: `email-topic` (EmailEvent)
+5. `EmailConsumer` → SMTP ile e-posta gönderir
+
+### 👤 Kullanıcı Silme Akışı (User Flow)
+1. `UserService` → `UserProducer` → Kafka: `user-topic` (UserDeletedEvent)
+2. `UserConsumer` → **Sadece log** (UserDeletedEvent alındı)
+3. `UserEmailTriggerConsumer` → `UserDeletedEvent` → `EmailEvent` üretir
+4. `EmailProducer` → Kafka: `email-topic` (EmailEvent)
+5. `EmailConsumer` → SMTP ile e-posta gönderir
+
+## WebSocket Tabanlı Gerçek Zamanlı Bildirimler
+
+Sunucu tarafında ürün olaylarını (CRUD) Kafka üzerinden WebSocket'e taşıdık:
+
+1. `ProductService` → `ProductProducer` → Kafka: `product-topic` (ProductEvent)
+2. `ProductConsumer` → **Sadece log** (ProductEvent alındı)
+3. `ProductWebSocketTriggerConsumer` → `ProductEvent` → `ProductNotification` DTO`su oluşturur
+4. `SimpMessagingTemplate` kullanarak STOMP broker üzerinden `/topic/products` kanalına yayınlar
+5. Frontend React/Vue/Angular uygulaması STOMP/WebSocket ile `/topic/products` kanalını dinleyerek anlık bildirimleri gösterir
+
 ## Kurulum ve Çalıştırma
 
 1. **Backend**  
