@@ -10,11 +10,16 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 - **Backend**  
   - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, MySQL  
   - JWT ile güvenli API erişimi  
-  - MultipartFile desteği ile ürün görseli yükleme  
+  - MultipartFile desteği ile ürün görseli yükleme
+  - Kafka ile event-driven mimari ve mesaj kuyruğu desteği
+  - SMTP tabanlı e-posta bildirim servisi
+  - WebSocket/STOMP ile gerçek zamanlı bildirimler
+    
 - **Frontend**  
   - React (Vite), Tailwind CSS, React Router v6  
   - Axios üzerinden REST çağrıları  
-  - ProtectedRoute ile oturum kontrolleri  
+  - ProtectedRoute ile oturum kontrolleri
+  - STOMP/WebSocket client ile gerçek zamanlı bildirimleri gösterme
 
 ---
 
@@ -103,7 +108,6 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 | PUT          | `/api/v1/users`                  | Kullanıcı bilgilerini günceller                | Authenticated |
 | DELETE       | `/api/v1/users/delete`           | Hesap silme                                    | Authenticated |
 
-
 ---
 
 ## Event-Driven Akışlar
@@ -131,6 +135,8 @@ Sunucu tarafında ürün olaylarını (CRUD) Kafka üzerinden WebSocket'e taşı
 3. `ProductWebSocketTriggerConsumer` → `ProductEvent` → `ProductNotification` DTO`su oluşturur
 4. `SimpMessagingTemplate` kullanarak STOMP broker üzerinden `/topic/products` kanalına yayınlar
 5. Frontend React/Vue/Angular uygulaması STOMP/WebSocket ile `/topic/products` kanalını dinleyerek anlık bildirimleri gösterir
+
+---
 
 ## Kurulum ve Çalıştırma
 
