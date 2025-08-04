@@ -36,7 +36,8 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
   - Sepeti siparişe çevirme  
   - Sipariş geçmişi görüntüleme  
 - *Kullanıcı Kimlik Doğrulama*  
-  - Kayıt / Giriş (JWT)  
+  - Kayıt / Giriş (JWT)
+  - E-posta doğrulama ile hesap aktifleştirme
   - Rol tabanlı erişim (ROLE_USER, ROLE_ADMIN)  
 - *API & Görsel Güvenliği*  
   - Spring Security ile uç nokta koruması  
