@@ -15,13 +15,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${baseUrl}/users`, {
+       await axios.post(`${baseUrl}/auth/register`, {
         firstName: firstNameRef.current.value,
         lastName: lastNameRef.current.value,
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
       navigate("/");
+      alert("Registration successful! to validate your account, please check your email.");
     } catch (error) {
       if (error.response?.status === 409) {
         alert("This email is already registered. Please try another one.");
