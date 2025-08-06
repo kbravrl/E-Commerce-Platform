@@ -5,19 +5,22 @@ import com.example.dreamshops.exceptions.AlreadyExistsException;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.kafka.producer.UserProducer;
 import com.example.dreamshops.model.User;
+import com.example.dreamshops.model.VerificationRequest;
+import com.example.dreamshops.repository.VerificationRequestRepository;
 import com.example.dreamshops.repository.UserRepository;
 import com.example.dreamshops.request.CreateUserRequest;
 import com.example.dreamshops.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.dreamshops.kafka.event.UserDeletedEvent;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +28,8 @@ public class UserService implements IUserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserProducer userProducer;
+    private final UserProducer userProducer;
+    private final VerificationRequestRepository vReqRepo;
 
     @Override
     public User getUserById(Long userId) {
@@ -34,18 +37,45 @@ public class UserService implements IUserService{
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
     }
 
-    @Override
-    public User createUser(CreateUserRequest request) {
+    public String createVerification(CreateUserRequest request) {
         return Optional.of(request)
                 .filter(user -> !userRepository.existsByEmail(request.getEmail()))
                 .map(req -> {
-                    User newUser = new User();
-                    newUser.setFirstName(request.getFirstName());
-                    newUser.setLastName(request.getLastName());
-                    newUser.setEmail(request.getEmail());
-                    newUser.setPassword(passwordEncoder.encode(request.getPassword()));
-                    return userRepository.save(newUser);
+                    String token = UUID.randomUUID().toString();
+                    VerificationRequest vr = new VerificationRequest(
+                            request.getFirstName(),
+                            request.getLastName(),
+                            request.getEmail(),
+                            passwordEncoder.encode(request.getPassword()),
+                            token
+                    );
+                    vReqRepo.save(vr);
+                    return token;
                 }).orElseThrow(() -> new AlreadyExistsException("User with this email already exists: " + request.getEmail()));
+    }
+
+    @Override
+    public Boolean confirmAndCreateUser(String token) {
+        Optional<VerificationRequest> opt = vReqRepo.findByToken(token);
+        if (opt.isEmpty()) return false;
+
+        VerificationRequest vr = opt.get();
+        User user = new User();
+        user.setFirstName(vr.getFirstName());
+        user.setLastName(vr.getLastName());
+        user.setEmail(vr.getEmail());
+        user.setPassword(vr.getPassword());
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        vReqRepo.delete(vr);
+        return true;
+    }
+
+    @Override
+    public void purgeExpired(long hours) {
+        LocalDateTime cutoff = LocalDateTime.now().minusHours(hours);
+        vReqRepo.findAllByCreatedAtBefore(cutoff).forEach(vReqRepo::delete);
     }
 
     @Override

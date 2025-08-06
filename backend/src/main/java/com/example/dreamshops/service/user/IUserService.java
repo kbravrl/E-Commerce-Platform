@@ -6,9 +6,12 @@ import com.example.dreamshops.request.UserUpdateRequest;
 
 public interface IUserService {
     User getUserById(Long userId);
-    User createUser(CreateUserRequest request);
+    String createVerification(CreateUserRequest request);
+    Boolean confirmAndCreateUser(String token);
+    void purgeExpired(long hours);
     User updateUser(Long userId, UserUpdateRequest request);
     void deleteUser(Long userId);
     UserDto convertUserToDto(User user);
     User getAuthenticatedUser();
+
 }
