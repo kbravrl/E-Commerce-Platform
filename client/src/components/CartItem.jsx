@@ -12,6 +12,7 @@ const CartItem = ({ item, onRemove, handleQuantityChange }) => {
   const updateQuantity = async (delta) => {
     const newQuantity = quantity + delta;
     if (newQuantity < 1) return;
+    if (newQuantity > item.product.inventory) return;
     try {
       await axios.put(
         `${baseUrl}/cartItems/products/${item.product.id}/cartItems?quantity=${newQuantity}`,
