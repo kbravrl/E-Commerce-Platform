@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import CartItem from "../../components/CartItem";
 import CartTotalPanel from "../../components/CartTotalPanel";
+import StockAlerts from "../../components/StockAlerts";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -102,6 +103,7 @@ const Cart = () => {
   return (
      <>
       <Navbar />
+      <StockAlerts />
       <div className="bg-gray-100 min-h-screen py-10">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Shopping Cart</h2>
