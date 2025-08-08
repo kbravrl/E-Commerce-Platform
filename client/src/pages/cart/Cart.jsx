@@ -72,6 +72,7 @@ const Cart = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
 
       alert("Order created successfully!");
@@ -81,6 +82,22 @@ const Cart = () => {
       alert("Order could not be created.");
     }
   };
+
+  const handleQuantityChange = () => {
+    axios
+      .get(`${baseUrl}/carts/total-price`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        setTotalAmount(response.data.data ?? 0);
+      })
+      .catch((error) => {
+        console.error("Total price could not be received:", error);
+      }); 
+    };
 
   return (
      <>
@@ -97,7 +114,7 @@ const Cart = () => {
                       key={item.id}
                       item={item}
                       onRemove={handleRemove}
-                      handleQuantityChange={fetchCart}
+                      handleQuantityChange={handleQuantityChange}
                     />
                   ))}
                   <button
