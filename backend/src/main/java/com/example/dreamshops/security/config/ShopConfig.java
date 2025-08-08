@@ -77,13 +77,13 @@ public class ShopConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf(AbstractHttpConfigurer:: disable)
-             .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
-             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-             .authorizeHttpRequests(auth -> auth
-                     .requestMatchers(SECURED_URLS.toArray(String[]::new)).authenticated()
-                     .requestMatchers("/app/**", "/topic/products").permitAll()
-                     .anyRequest().permitAll());
+        http.cors().and().csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(SECURED_URLS.toArray(String[]::new)).authenticated()
+                        .requestMatchers("/app/**", "/topic/**").permitAll()
+                        .anyRequest().permitAll());
         http.authenticationProvider(daoAuthenticationProvider());
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -104,4 +104,3 @@ public class ShopConfig {
         };
     }
 }
-
