@@ -38,7 +38,6 @@ const UserProfile = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data.data);
         setUser(response.data.data);
         setOrders(response.data.data.orders || []);
       })
