@@ -8,10 +8,11 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ## Tech Stack
 - **Backend**  
-  - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, MySQL  
-  - JWT ile güvenli API erişimi  
-  - MultipartFile desteği ile ürün görseli yükleme
-  - Kafka ile event-driven mimari ve mesaj kuyruğu desteği
+  - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, Lombok, MySQL 
+  - JWT ile güvenli API erişimi
+  - Onaylanmış e-posta ile sisteme giriş
+  - MultipartFile destekli ürün yükleme
+  - Kafka ile event-driven mimarisi ve mesaj kuyruğu desteği
   - SMTP tabanlı e-posta bildirim servisi
   - WebSocket/STOMP ile gerçek zamanlı bildirimler
     
@@ -50,7 +51,11 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 ### 1. **Login**  
 - `/`  
 - Email & şifre ile giriş  
-- Başarılı giriş → token `localStorage`’a kaydedilir, `/products` yönlendirmesi  
+- Başarılı giriş → token `localStorage`’a kaydedilir, `/products` yönlendirmesi
+
+### 1. **Register**  
+- `/register`  
+- Maile gönderilen doğrulama linki ile e postayı onaylama
 
 ### 2. **Products**  
 - `/products`  
@@ -111,7 +116,7 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ---
 
-## Event-Driven Akışlar
+## Kafka Event-Driven Akışları
 
 ### 🛒 Sipariş Oluşturma Akışı (Order Flow)
 1. `OrderService` → `OrderProducer` → Kafka: `order-topic` (OrderEvent)
@@ -127,16 +132,17 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 4. `EmailProducer` → Kafka: `email-topic` (EmailEvent)
 5. `EmailConsumer` → SMTP ile e-posta gönderir
 
-## WebSocket Tabanlı Gerçek Zamanlı Bildirimler
+## WebSocket Tabanlı Gerçek Zamanlı Bildirimler - Anlık Stok Uyarıları (LowStockAlert)
+#### Ürün envanteri belirlenen eşik değerin altına düştüğünde, frontend’e gerçek zamanlı uyarı (toast) iletmek.
 
-Sunucu tarafında ürün olaylarını (CRUD) Kafka üzerinden WebSocket'e taşıdık:
+###  Özellikler
 
-1. `ProductService` → `ProductProducer` → Kafka: `product-topic` (ProductEvent)
-2. `ProductConsumer` → **Sadece log** (ProductEvent alındı)
-3. `ProductWebSocketTriggerConsumer` → `ProductEvent` → `ProductNotification` DTO`su oluşturur
-4. `SimpMessagingTemplate` kullanarak STOMP broker üzerinden `/topic/products` kanalına yayınlar
-5. Frontend React/Vue/Angular uygulaması STOMP/WebSocket ile `/topic/products` kanalını dinleyerek anlık bildirimleri gösterir
-
+1. Kullanıcı işlem yapar (sepete ekleme/çıkarma, sipariş vb.).
+2. Backend stok kontrolü yapar. Eğer ürün inventory <= LOW_STOCK_THRESHOLD ise uyarı hazırlanır.
+3. Publisher, LowStockAlert payload’ını /topic/stock-alerts kanalına yayınlar.
+4. Frontend, STOMP ile bu kanala abonedir ve gelen mesajı toast olarak gösterir.
+5. Bu sayede, kullanıcılar bir ürünün stokunun azaldığı bilgisini sayfa yenilemesine gerek kalmadan gerçek zamanlı olarak alabilirler.
+   
 ---
 
 ## Kurulum ve Çalıştırma
