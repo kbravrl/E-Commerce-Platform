@@ -1,11 +1,15 @@
 package com.example.dreamshops.service.cart;
 
+import com.example.dreamshops.dto.LowStockAlert;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.model.Cart;
+import com.example.dreamshops.model.Product;
 import com.example.dreamshops.model.User;
 import com.example.dreamshops.repository.CartItemRepository;
 import com.example.dreamshops.repository.CartRepository;
+import com.example.dreamshops.repository.ProductRepository;
 import com.example.dreamshops.service.user.IUserService;
+import com.example.dreamshops.service.ws.StockAlertPublisher;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,9 +21,29 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CartService implements ICartService {
+    private static final int LOW_STOCK_THRESHOLD = 3;
+
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final IUserService userService;
+    private final StockAlertPublisher stockAlertPublisher;
+
+    private void maybeNotifyLowStock(Cart cart) {
+        cart.getItems().forEach(cartItem -> {
+            Product product = cartItem.getProduct();
+            int inv = product.getInventory();
+            if (inv <= LOW_STOCK_THRESHOLD) {
+                stockAlertPublisher.broadcastLowStock(
+                        new LowStockAlert(
+                                product.getId(),
+                                product.getName(),
+                                inv,
+                                "Dikkat! '" + product.getName() + "' için stokta sadece " + inv + " adet kaldı."
+                        )
+                );
+            }
+        });
+    }
 
     @Override
     public Cart getCart() {
@@ -28,6 +52,7 @@ public class CartService implements ICartService {
                 .map(cart -> {
                     BigDecimal totalAmount = cart.getTotalAmount();
                     cart.setTotalAmount(totalAmount);
+                    maybeNotifyLowStock(cart);
                     return cartRepository.save(cart);
                 })
                 .orElseGet(() -> {
