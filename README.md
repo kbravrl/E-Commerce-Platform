@@ -10,10 +10,9 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 - **Backend**  
   - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, Lombok, MySQL 
   - JWT ile güvenli API erişimi
-  - Onaylanmış e-posta ile sisteme giriş
   - MultipartFile destekli ürün yükleme
   - Kafka ile event-driven mimarisi ve mesaj kuyruğu desteği
-  - SMTP tabanlı e-posta bildirim servisi
+  - SMTP tabanlı e-posta bildirim servisi 
   - WebSocket/STOMP ile gerçek zamanlı bildirimler
     
 - **Frontend**  
@@ -55,7 +54,7 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ### 1. **Register**  
 - `/register`  
-- Maile gönderilen doğrulama linki ile e postayı onaylama
+- Mail onaylama işlemi için SMTP ile maile link gönderimi
 
 ### 2. **Products**  
 - `/products`  
@@ -96,7 +95,8 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 | Metot        | URL                              | Açıklama                                       | Yetki         |
 | ------------ | -------------------------------- | ---------------------------------------------- | ------------- |
-| POST         | `/api/v1/auth/login`             | Giriş → JWT döner                              | ―             |
+| POST         | `/api/v1/auth/login`             | Giriş → JWT döner                              |       ―       |
+| POST         | `/api/v1/auth/register`          | Kayıt işlemi -> Doğrulama linki gönderilir     |       ―       |
 | GET          | `/api/v1/products`               | Tüm ürünleri listeler                          | Authenticated |
 | GET          | `/api/v1/products/{id}`          | Tek bir ürünü getirir                          | Authenticated |
 | POST         | `/api/v1/products/add`           | Ürün ekler                                     | `ROLE_ADMIN`  |
@@ -116,7 +116,7 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 
 ---
 
-## Kafka Event-Driven Akışları
+## Kafka Event-Driven Akışları ve SMTP
 
 ### 🛒 Sipariş Oluşturma Akışı (Order Flow)
 1. `OrderService` → `OrderProducer` → Kafka: `order-topic` (OrderEvent)
@@ -131,6 +131,8 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
 3. `UserEmailTriggerConsumer` → `UserDeletedEvent` → `EmailEvent` üretir
 4. `EmailProducer` → Kafka: `email-topic` (EmailEvent)
 5. `EmailConsumer` → SMTP ile e-posta gönderir
+    
+---
 
 ## WebSocket Tabanlı Gerçek Zamanlı Bildirimler - Anlık Stok Uyarıları (LowStockAlert)
 #### Ürün envanteri belirlenen eşik değerin altına düştüğünde, frontend’e gerçek zamanlı uyarı (toast) iletmek.
