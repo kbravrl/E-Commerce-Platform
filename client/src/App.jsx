@@ -7,10 +7,8 @@ import Order from "./pages/order/Order";
 import Cart from "./pages/cart/Cart";
 import User from "./pages/user/User";
 import ProtectedRoute from "./components/ProtectedRoute";
-import useProductNotifications from "./hooks/useProductNotifications";
 
 const App = () => {
-  useProductNotifications();
   return (
     <BrowserRouter>
       <Routes>
