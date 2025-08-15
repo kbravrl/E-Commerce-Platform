@@ -19,14 +19,17 @@ public class VerificationRequest {
     private String firstName;
     private String lastName;
     private String email;
+    private String phone;
     private String password;
     private String token;
     private LocalDateTime createdAt;
 
-    public VerificationRequest(String fn, String ln, String email, String encode, String token) {
-        this.firstName = fn;
-        this.lastName = ln;
+    public VerificationRequest(String firstName, String lastName, String email, String phone, String encode,
+            String token) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.phone = phone;
         this.password = encode;
         this.token = token;
         this.createdAt = LocalDateTime.now();
