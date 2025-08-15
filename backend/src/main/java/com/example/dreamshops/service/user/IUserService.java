@@ -6,8 +6,10 @@ import com.example.dreamshops.request.UserUpdateRequest;
 
 public interface IUserService {
     User getUserById(Long userId);
-    String createVerification(CreateUserRequest request);
-    Boolean confirmAndCreateUser(String token);
+    String createVerificationBySms(CreateUserRequest request);
+    boolean confirmAndCreateUserBySms(String token, String code);
+    String createVerificationByEmail(CreateUserRequest request);
+    Boolean confirmAndCreateUserByEmail(String token);
     void purgeExpired(long hours);
     User updateUser(Long userId, UserUpdateRequest request);
     void deleteUser(Long userId);

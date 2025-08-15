@@ -10,6 +10,7 @@ import com.example.dreamshops.repository.VerificationRequestRepository;
 import com.example.dreamshops.repository.UserRepository;
 import com.example.dreamshops.request.CreateUserRequest;
 import com.example.dreamshops.request.UserUpdateRequest;
+import com.example.dreamshops.service.notification.TwilioVerifyService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.dreamshops.kafka.event.UserDeletedEvent;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,6 +30,7 @@ public class UserService implements IUserService{
     private final PasswordEncoder passwordEncoder;
     private final UserProducer userProducer;
     private final VerificationRequestRepository vReqRepo;
+    private final TwilioVerifyService twilioVerifyService;
 
     @Override
     public User getUserById(Long userId) {
@@ -37,33 +38,74 @@ public class UserService implements IUserService{
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
     }
 
-    public String createVerification(CreateUserRequest request) {
-        return Optional.of(request)
-                .filter(user -> !userRepository.existsByEmail(request.getEmail()))
-                .map(req -> {
-                    String token = UUID.randomUUID().toString();
-                    VerificationRequest vr = new VerificationRequest(
-                            request.getFirstName(),
-                            request.getLastName(),
-                            request.getEmail(),
-                            passwordEncoder.encode(request.getPassword()),
-                            token
-                    );
-                    vReqRepo.save(vr);
-                    return token;
-                }).orElseThrow(() -> new AlreadyExistsException("User with this email already exists: " + request.getEmail()));
+    @Override
+    public String createVerificationBySms(CreateUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail()))
+            throw new AlreadyExistsException("User with this email already exists: " + request.getEmail());
+
+        String token = UUID.randomUUID().toString();
+        VerificationRequest vr = new VerificationRequest(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getEmail(),
+                request.getPhone(),
+                passwordEncoder.encode(request.getPassword()),
+                token
+        );
+        vReqRepo.save(vr);
+        twilioVerifyService.sendSmsCode(request.getPhone());
+        return token;
     }
 
     @Override
-    public Boolean confirmAndCreateUser(String token) {
-        Optional<VerificationRequest> opt = vReqRepo.findByToken(token);
-        if (opt.isEmpty()) return false;
+    public boolean confirmAndCreateUserBySms(String token, String code) {
+        VerificationRequest vr = vReqRepo.findByToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid or expired token."));
 
-        VerificationRequest vr = opt.get();
+        boolean ok = twilioVerifyService.checkCode(vr.getPhone(), code);
+        if (!ok) return false;
+
         User user = new User();
         user.setFirstName(vr.getFirstName());
         user.setLastName(vr.getLastName());
         user.setEmail(vr.getEmail());
+        user.setPhone(vr.getPhone());
+        user.setPassword(vr.getPassword());
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        vReqRepo.delete(vr);
+        return true;
+    }
+
+    @Override
+    public String createVerificationByEmail(CreateUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new AlreadyExistsException("User with this email already exists: " + request.getEmail());
+        }
+
+        String token = UUID.randomUUID().toString();
+        VerificationRequest vr = new VerificationRequest();
+        vr.setFirstName(request.getFirstName());
+        vr.setLastName(request.getLastName());
+        vr.setEmail(request.getEmail());
+        vr.setPhone(request.getPhone());
+        vr.setPassword(passwordEncoder.encode(request.getPassword()));
+        vr.setToken(token);
+        vReqRepo.save(vr);
+        return token;
+    }
+
+    @Override
+    public Boolean confirmAndCreateUserByEmail(String token) {
+        VerificationRequest vr = vReqRepo.findByToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid or expired token."));
+
+        User user = new User();
+        user.setFirstName(vr.getFirstName());
+        user.setLastName(vr.getLastName());
+        user.setEmail(vr.getEmail());
+        user.setPhone(vr.getPhone());
         user.setPassword(vr.getPassword());
         user.setEnabled(true);
         userRepository.save(user);
@@ -118,6 +160,4 @@ public class UserService implements IUserService{
         return userRepository.findByEmail(email);
 
     }
-
-
 }
