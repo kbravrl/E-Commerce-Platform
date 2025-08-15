@@ -1,5 +1,7 @@
 package com.example.dreamshops.controller;
 
+import com.example.dreamshops.exceptions.AlreadyExistsException;
+import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.request.CreateUserRequest;
 import com.example.dreamshops.request.LoginRequest;
 import com.example.dreamshops.response.ApiResponse;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dreamshops.service.notification.EmailService;
 import com.example.dreamshops.service.user.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
@@ -52,27 +57,53 @@ public class AuthController {
         }
 
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody CreateUserRequest request) {
-        String token = userService.createVerification(request);
-
-        String link ="http://localhost:9191/api/v1/auth/confirm?token=" + token;
-
-        String body = "Hello " + request.getFirstName() + ",\n\n"
-                + "To verify your account, please click on this link:\n"
-                + link + "\n\nThanks!";
-        emailService.sendEmail(request.getEmail(), "Email Confirmation", body);
-
-        return ResponseEntity.ok("Registration successful! Please confirm your email address");
+    @PostMapping("/register-sms")
+    public ResponseEntity<ApiResponse> registerSms(@RequestBody CreateUserRequest request) {
+        try {
+            String token = userService.createVerificationBySms(request);
+            return ResponseEntity.ok(new ApiResponse("Registration successful! Please confirm the code sent to your phone", token));
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
+        }
     }
 
-    @GetMapping("/confirm")
-    public ResponseEntity<String> confirmEmail(@RequestParam("token") String token) {
-        boolean ok = userService.confirmAndCreateUser(token);
-        if (!ok) {
-            return ResponseEntity.badRequest().body("Invalid or expired token.");
+    public static record ConfirmSmsRequest(String token, String code) {}
+
+    @PostMapping("/confirm-sms")
+    public ResponseEntity<ApiResponse> confirmSms(@RequestBody ConfirmSmsRequest req) {
+        try {
+            userService.confirmAndCreateUserBySms(req.token(), req.code());
+            return ResponseEntity.ok(new ApiResponse("Phone verified. Your account is created. You can now log in.", null));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
-        return ResponseEntity.ok("Your email has been confirmed. You can now log in.");
+    }
+
+    @PostMapping("/register-email")
+    public ResponseEntity<ApiResponse> registerEmail(@RequestBody CreateUserRequest request) {
+        try {
+            String token = userService.createVerificationByEmail(request);
+
+            String link = "http://localhost:9191/api/v1/auth/confirm-email?token=" + token;
+
+            String body = "Hello " + request.getFirstName() + ",\n\n"
+                    + "To verify your account, please click on this link:\n"
+                    + link + "\n\nThanks!";
+            emailService.sendEmail(request.getEmail(), "Email Confirmation", body);
+
+            return ResponseEntity.ok(new ApiResponse("Registration successful! Please confirm your email address", token));
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/confirm-email")
+    public ResponseEntity<ApiResponse> confirmEmail(@RequestParam("token") String token) {
+        try {
+            userService.confirmAndCreateUserByEmail(token);
+            return ResponseEntity.ok(new ApiResponse("Your email has been confirmed. You can now log in.", null));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        }
     }
 }
