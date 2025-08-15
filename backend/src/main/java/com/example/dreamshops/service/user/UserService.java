@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.dreamshops.kafka.event.UserDeletedEvent;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -53,7 +54,9 @@ public class UserService implements IUserService{
                 token
         );
         vReqRepo.save(vr);
+
         twilioVerifyService.sendSmsCode(request.getPhone());
+
         return token;
     }
 
@@ -80,19 +83,20 @@ public class UserService implements IUserService{
 
     @Override
     public String createVerificationByEmail(CreateUserRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail()))
             throw new AlreadyExistsException("User with this email already exists: " + request.getEmail());
-        }
 
         String token = UUID.randomUUID().toString();
-        VerificationRequest vr = new VerificationRequest();
-        vr.setFirstName(request.getFirstName());
-        vr.setLastName(request.getLastName());
-        vr.setEmail(request.getEmail());
-        vr.setPhone(request.getPhone());
-        vr.setPassword(passwordEncoder.encode(request.getPassword()));
-        vr.setToken(token);
+        VerificationRequest vr = new VerificationRequest(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getEmail(),
+                request.getPhone(),
+                passwordEncoder.encode(request.getPassword()),
+                token
+        );
         vReqRepo.save(vr);
+
         return token;
     }
 
