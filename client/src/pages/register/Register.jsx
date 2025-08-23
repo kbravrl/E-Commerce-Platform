@@ -42,7 +42,6 @@ const Register = () => {
     }
   };
 
-// REPLACE THIS FUNCTION
 const handleRegisterSms = async () => {
   const phoneE164 = buildE164(localPhone);
   if (!phoneE164) {
