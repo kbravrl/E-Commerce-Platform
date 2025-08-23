@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import RegisterSms from "./pages/register/RegisterSms";
 import Products from "./pages/product/Products";
 import ProductList from "./pages/product/ProductList";
 import Order from "./pages/order/Order";
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register-sms" element={<RegisterSms />} />
         <Route element={<ProtectedRoute redirectPath="/" />}>
           <Route path="/products" element={<Products />} />
           <Route path="/category/:categoryName" element={<ProductList />} />

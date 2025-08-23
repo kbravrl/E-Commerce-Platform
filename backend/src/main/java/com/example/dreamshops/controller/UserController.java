@@ -1,10 +1,8 @@
 package com.example.dreamshops.controller;
 
 import com.example.dreamshops.dto.UserDto;
-import com.example.dreamshops.exceptions.AlreadyExistsException;
 import com.example.dreamshops.exceptions.ResourceNotFoundException;
 import com.example.dreamshops.model.User;
-import com.example.dreamshops.request.CreateUserRequest;
 import com.example.dreamshops.request.UserUpdateRequest;
 import com.example.dreamshops.response.ApiResponse;
 import com.example.dreamshops.service.user.IUserService;
@@ -12,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -29,17 +26,6 @@ public class UserController {
             return ResponseEntity.ok(new ApiResponse("User retrieved successfully", userDto));
         }catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("User not found", null));
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<ApiResponse> createUser(@RequestBody CreateUserRequest request) {
-        try {
-            User user = userService.createUser(request);
-            UserDto userDto = userService.convertUserToDto(user);
-            return ResponseEntity.ok(new ApiResponse("User created successfully", userDto));
-        } catch (AlreadyExistsException e) {
-            return ResponseEntity.status(CONFLICT).body(new ApiResponse("User already exists", null));
         }
     }
 

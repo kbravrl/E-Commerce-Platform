@@ -22,6 +22,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String phone; // E.164 format
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -37,6 +38,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles = new HashSet<>();
 
-
+    private boolean enabled = false;
 
 }

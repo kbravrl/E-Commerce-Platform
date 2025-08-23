@@ -19,6 +19,7 @@ public class ShopUserDetails implements UserDetails {
     private Long id;
     private String email;
     private String password;
+    private boolean enabled;
     private Collection<GrantedAuthority> authorities;
 
     public static ShopUserDetails buildUserDetails(User user) {
@@ -30,6 +31,7 @@ public class ShopUserDetails implements UserDetails {
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),
+                user.isEnabled(),
                 authorities);
     }
     @Override
@@ -64,6 +66,6 @@ public class ShopUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return enabled;
     }
 }
