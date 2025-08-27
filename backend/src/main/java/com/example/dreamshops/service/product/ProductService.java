@@ -16,6 +16,9 @@ import com.example.dreamshops.request.AddProductRequest;
 import com.example.dreamshops.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +40,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "products:list", allEntries = true),
+            @CacheEvict(cacheNames = "products:count", allEntries = true)
+    })
     public Product addProduct(AddProductRequest request) {
         if (productExists(request.getName(), request.getBrand())) {
             throw new AlreadyExistsException(request.getName());
@@ -67,6 +74,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "products:byId", key = "#productId"),
+            @CacheEvict(cacheNames = "products:list", allEntries = true),
+            @CacheEvict(cacheNames = "products:count", allEntries = true)
+    })
     public Product updateProduct(ProductUpdateRequest request, Long productId) {
         Product updatedProduct = productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
@@ -91,6 +103,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "products:byId", key = "#id"),
+            @CacheEvict(cacheNames = "products:list", allEntries = true),
+            @CacheEvict(cacheNames = "products:count", allEntries = true)
+    })
     public void deleteProductById(Long id) {
         productRepository.findById(id).ifPresentOrElse(product -> {
             publishProductEvent(product, "DELETED");
@@ -110,8 +127,8 @@ public class ProductService implements IProductService {
         productProducer.sendProductEvent(event);
     }
 
-
     @Override
+    @Cacheable(cacheNames = "products:list", key = "'all'")
     public List<ProductDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return getConvertedProducts(products);
@@ -165,3 +182,4 @@ public class ProductService implements IProductService {
         return productDto;
     }
 }
+
