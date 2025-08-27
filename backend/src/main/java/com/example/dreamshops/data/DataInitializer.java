@@ -17,56 +17,67 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationListener<ApplicationReadyEvent> {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        Set<String> defaultRoles = Set.of("ROLE_USER", "ROLE_ADMIN");
-        createDefaultUserIfNotExists();
-        createDefaultRoleIfNotExists(defaultRoles);
-        createDefaultAdminIfNotExists();
-
+        createDefaultRolesIfNotExist(Set.of("ROLE_USER", "ROLE_ADMIN"));
+        createDefaultAdminsIfNotExist();
+        createDefaultUsersIfNotExist();
     }
 
-    private void createDefaultUserIfNotExists() {
-        Role userRole = roleRepository.findByName("ROLE_USER").get();
-        for(int i =1; i <= 5; i++) {
-            String defaultEmail = "user" + i + "@email.com";
-            if(userRepository.existsByEmail(defaultEmail)) {
-                continue;
-            }
-            User user = new User();
-            user.setFirstName("The User");
-            user.setLastName("Number " + i);
-            user.setEmail(defaultEmail);
-            user.setPassword(passwordEncoder.encode("123456"));
-            user.setRoles(Set.of(userRole));
-            userRepository.save(user);
-            System.out.println("Default vet user: " + i + "created successfully");
+    private Role getOrCreateRole(String name) {
+        return roleRepository.findByName(name).orElseGet(() -> {
+            Role r = new Role();
+            r.setName(name);
+            return roleRepository.save(r);
+        });
+    }
+
+    private void createDefaultRolesIfNotExist(Set<String> roles) {
+        for (String name : roles) {
+            getOrCreateRole(name);
         }
     }
 
-    private void createDefaultAdminIfNotExists() {
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN").get();
-        for(int i =1; i <= 2; i++) {
-            String defaultEmail = "admin" + i + "@email.com";
-            if(userRepository.existsByEmail(defaultEmail)) {
-                continue;
-            }
+    private void createDefaultUsersIfNotExist() {
+        Role userRole = getOrCreateRole("ROLE_USER");
+
+        for (int i = 1; i <= 5; i++) {
+            String email = "user" + i + "@email.com";
+            if (userRepository.existsByEmail(email)) continue;
+
+            User user = new User();
+            user.setFirstName("The");
+            user.setLastName("User " + i);
+            user.setEmail(email);
+            user.setPassword(passwordEncoder.encode("123456"));
+            user.setEnabled(true);
+            user.setRoles(Set.of(userRole));
+
+            userRepository.save(user);
+            System.out.println("[Seed] Default user created: " + email);
+        }
+    }
+
+    private void createDefaultAdminsIfNotExist() {
+        Role adminRole = getOrCreateRole("ROLE_ADMIN");
+
+        for (int i = 1; i <= 2; i++) {
+            String email = "admin" + i + "@email.com";
+            if (userRepository.existsByEmail(email)) continue;
+
             User user = new User();
             user.setFirstName("Admin");
             user.setLastName("Admin " + i);
-            user.setEmail(defaultEmail);
+            user.setEmail(email);
             user.setPassword(passwordEncoder.encode("123456"));
+            user.setEnabled(true);
             user.setRoles(Set.of(adminRole));
-            userRepository.save(user);
-            System.out.println("Default admin user: " + i + "created successfully");
-        }
-    }
 
-    private void createDefaultRoleIfNotExists(Set<String> roles) {
-        roles.stream()
-                .filter(role -> roleRepository.findByName(role).isEmpty())
-                .map(Role:: new).forEach(roleRepository::save);
+            userRepository.save(user);
+            System.out.println("[Seed] Default admin created: " + email);
+        }
     }
 }
