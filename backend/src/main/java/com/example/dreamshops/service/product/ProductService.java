@@ -160,6 +160,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Cacheable(cacheNames = "products:count", key = "'countByBrandAndName:' + #brand + ':' + #name")
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand, name);
     }
