@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const Product = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/products`)
+      .get("/api/v1/products")
       .then((response) => {
         setProducts(response.data.data);
       })
@@ -22,7 +20,7 @@ const Product = () => {
 
     axios
       .post(
-        `${baseUrl}/cartItems?productId=${productId}&quantity=${1}`,
+        `/api/v1/cartItems?productId=${productId}&quantity=${1}`,
         {},
         {
           headers: {

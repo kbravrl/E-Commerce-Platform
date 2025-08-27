@@ -3,8 +3,6 @@ import axios from "axios";
 import { initialState , productReducer } from "../hooks/productAddReducer";
 import ProductForm from "./ProductForm";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const ProductAdd = () => {
   const [product, dispatch] = useReducer(productReducer, initialState);
   const [images, setImages] = useState([]);
@@ -26,7 +24,7 @@ const ProductAdd = () => {
 
     try {
       const productResponse = await axios.post(
-        `${baseUrl}/products`,
+        "/api/v1/products",
         {
           name: product.name,
           brand: product.brand,
@@ -51,7 +49,7 @@ const ProductAdd = () => {
         }
         formData.append("productId", productId);
 
-        await axios.post(`${baseUrl}/images`, formData, {
+        await axios.post("/api/v1/images", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",

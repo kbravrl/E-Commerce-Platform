@@ -2,8 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import InputField from "./InputField";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const ProductDelete = () => {
   const [productId, setProductId] = useState("");
 
@@ -11,7 +9,7 @@ const ProductDelete = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${baseUrl}/products/${productId}`, {
+      await axios.delete(`/api/v1/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

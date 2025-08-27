@@ -2,8 +2,6 @@ import { useRef } from "react";
 import axios from "axios";
 import InputField from "./InputField";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const UserUpdate = ({ onUpdate }) => {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -12,7 +10,7 @@ const UserUpdate = ({ onUpdate }) => {
     e.preventDefault();
     axios
       .put(
-        `${baseUrl}/users`,
+        "/api/v1/users",
         {
           firstName: firstNameRef.current.value,
           lastName: lastNameRef.current.value,

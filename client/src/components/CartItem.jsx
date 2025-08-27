@@ -2,8 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import trashIcon from "../assets/icons/trash.svg";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const CartItem = ({ item, onRemove, handleQuantityChange }) => {
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -15,7 +13,7 @@ const CartItem = ({ item, onRemove, handleQuantityChange }) => {
     if (newQuantity > item.product.inventory) return;
     try {
       await axios.put(
-        `${baseUrl}/cartItems/products/${item.product.id}/cartItems?quantity=${newQuantity}`,
+        `/api/v1/cartItems/products/${item.product.id}/cartItems?quantity=${newQuantity}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -4,7 +4,6 @@ import axios from "axios";
 import LogoHeader from "../../components/LogoHeader";
 import InputField from "../../components/InputField";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
   const emailRef = useRef();
@@ -14,7 +13,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${baseUrl}/auth/login`, {
+      const response = await axios.post(`/api/v1/auth/login`, {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });

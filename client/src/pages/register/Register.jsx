@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import InputField from "../../components/InputField";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const Register = () => {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -22,7 +20,7 @@ const Register = () => {
   const handleRegisterEmail = async () => {
     setIsLoading(true);
     try {
-      await axios.post(`${baseUrl}/auth/register-email`, {
+      await axios.post("/api/v1/auth/register-email", {
         firstName: firstNameRef.current.value,
         lastName: lastNameRef.current.value,
         email: emailRef.current.value,
@@ -58,7 +56,7 @@ const handleRegisterSms = async () => {
       phone: phoneE164,
     };
 
-    const resp = await axios.post(`${baseUrl}/auth/register-sms`, payload);
+    const resp = await axios.post("api/v1/auth/register-sms", payload);
     const token = resp.data?.data
 
     if (!token) {

@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const RegisterSms = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,7 +18,6 @@ const RegisterSms = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [code, setCode] = useState("");
 
-  // Restore phone from session if needed
   useEffect(() => {
     if (!token || !phoneE164) {
       const payloadStr = sessionStorage.getItem("pendingRegisterData");
@@ -32,7 +29,6 @@ const RegisterSms = () => {
     }
   }, [token, phoneE164]);
 
-  // Countdown
   useEffect(() => {
     if (!timeLeft || timeLeft <= 0) return;
     const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
@@ -56,7 +52,7 @@ const RegisterSms = () => {
     }
     setIsLoading(true);
     try {
-      await axios.post(`${baseUrl}/auth/confirm-sms`, { token, code: trimmed });
+      await axios.post("/api/v1/auth/confirm-sms", { token, code: trimmed });
       alert("Phone verified. Your account has been created!");
       sessionStorage.removeItem("pendingRegisterData");
       navigate("/");
@@ -86,7 +82,7 @@ const RegisterSms = () => {
     try {
       setIsLoading(true);
       const payload = JSON.parse(payloadStr);
-      const resp = await axios.post(`${baseUrl}/auth/register-sms`, payload);
+      const resp = await axios.post("/api/v1/auth/register-sms", payload);
       const newToken = resp.data?.data
 
       if (!newToken) {

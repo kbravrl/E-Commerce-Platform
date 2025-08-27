@@ -4,8 +4,6 @@ import InputField from "./InputField";
 import { initialState, productReducer } from "../hooks/productEditReducer";
 import ProductForm from "./ProductForm";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const ProductEdit = () => {
   const [product, dispatch] = useReducer(productReducer, initialState);
   const [images, setImages] = useState([]);
@@ -27,7 +25,7 @@ const ProductEdit = () => {
 
     try {
       await axios.put(
-        `${baseUrl}/products/${product.id}`,
+        `/api/v1/products/${product.id}`,
         {
           name: product.name,
           brand: product.brand,
@@ -50,7 +48,7 @@ const ProductEdit = () => {
         }
         formData.append("productId", product.id);
 
-        await axios.put(`${baseUrl}/images`, formData, {
+        await axios.put("/api/v1/images", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",

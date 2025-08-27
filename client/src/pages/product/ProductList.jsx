@@ -4,15 +4,13 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const ProductList = () => {
   const { categoryName } = useParams();
   const [productsByCategory, setProductsByCategory] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/products/by-category/${categoryName}`)
+      .get(`/api/v1/products/by-category/${categoryName}`)
       .then((response) => {
         setProductsByCategory(response.data.data);
       })
@@ -24,7 +22,7 @@ const ProductList = () => {
 
     axios
       .post(
-        `${baseUrl}/cartItems?productId=${productId}&quantity=${1}`,
+        `/api/v1/cartItems?productId=${productId}&quantity=${1}`,
         {},
         {
           headers: {

@@ -3,15 +3,13 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import OrderDetails from "../../components/OrderDetails";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const Order = () => {
   const [orderDetails, setOrderDetails] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/orders`, {
+      .get("/api/v1/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

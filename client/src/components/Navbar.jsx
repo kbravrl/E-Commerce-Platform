@@ -3,15 +3,13 @@ import logo from "../assets/icons/cart2.png";
 import user from "../assets/icons/person.png";
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/categories`)
+      .get("/api/v1/categories")
       .then((response) => {
         setCategories(response.data.data);
       })

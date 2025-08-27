@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const UserDelete = () => {
   const token = localStorage.getItem("token");
 
@@ -11,7 +9,7 @@ const UserDelete = () => {
     );
     if (confirmDelete) {
       axios
-        .delete(`${baseUrl}/users`, {
+        .delete("/api/v1/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

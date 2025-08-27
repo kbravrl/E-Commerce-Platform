@@ -11,8 +11,6 @@ import ProductDelete from "../../components/ProductDelete";
 import ProductAdd from "../../components/ProductAdd";
 import ProductEdit from "../../components/ProductEdit";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const UserProfile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState([]);
@@ -31,7 +29,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/users`, {
+      .get("/api/v1/users", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

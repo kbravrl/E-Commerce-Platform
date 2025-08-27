@@ -5,8 +5,6 @@ import CartItem from "../../components/CartItem";
 import CartTotalPanel from "../../components/CartTotalPanel";
 import StockAlerts from "../../components/StockAlerts";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -16,7 +14,7 @@ const Cart = () => {
 
   const fetchCart = () => {
     axios
-      .get(`${baseUrl}/carts`, {
+      .get("/api/v1/carts", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +37,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      await axios.delete(`${baseUrl}/cartItems/products/${productId}/cartItems`, {
+      await axios.delete(`/api/v1/cartItems/products/${productId}/cartItems`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -54,7 +52,7 @@ const Cart = () => {
       return;
     }
     try {
-      await axios.delete(`${baseUrl}/carts`, {
+      await axios.delete("/api/v1/carts", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,7 +67,7 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      await axios.post(`${baseUrl}/orders/create`, null, {
+      await axios.post("/api/v1/orders/create", null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -86,7 +84,7 @@ const Cart = () => {
 
   const handleQuantityChange = () => {
     axios
-      .get(`${baseUrl}/carts/total-price`, {
+      .get("/api/v1/carts/total-price", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
