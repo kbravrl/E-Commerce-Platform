@@ -7,11 +7,15 @@
 ![cart](https://github.com/user-attachments/assets/bab2a062-df0f-4ee1-916d-78b6f9a0c983)
 ![order](https://github.com/user-attachments/assets/0d2739bf-b58e-46d8-b2bc-9258115c965b)
 ![user](https://github.com/user-attachments/assets/3ac5906f-da89-446f-9741-b44a9602bf1a)
-
+![editaccount](https://github.com/user-attachments/assets/6cdbe12d-e38e-41d1-ae15-bf654b4e1c77)
+![deleteaccount](https://github.com/user-attachments/assets/2a8a64af-9fdb-4eda-9712-649880dc732f)
+![addproduct](https://github.com/user-attachments/assets/105a1cb0-429c-4a6f-8dc7-6aea3f9a5dcb)
+![editproduct](https://github.com/user-attachments/assets/e1b2194d-c3ad-4d43-a837-93af25863136)
+![deleteproduct](https://github.com/user-attachments/assets/28ff8dc7-3ca5-4cb8-a475-2cd64bc2f1ee)
 
 ## Açıklama
 Bu proje, **Spring Boot** ve **React** + **Tailwind CSS** kullanılarak geliştirilmiş tam özellikli bir e‑ticaret platformudur.  
-Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile **JWT** tabanlı kimlik doğrulama sağlar. Frontend ise kullanıcı arayüzünü React bileşenleriyle sunar.
+Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi; Frontend ise kullanıcı arayüzünü React bileşenleriyle sunar.
 
 ---
 
@@ -23,7 +27,7 @@ Backend tarafı ürün, kategori, sepet, sipariş ve kullanıcı yönetimi ile *
   - Kafka ile event-driven mimarisi ve mesaj kuyruğu desteği
   - SMTP tabanlı e-posta bildirim servisi 
   - WebSocket/STOMP ile gerçek zamanlı bildirimler
-  - Redis tabanlı önbellekleme kullanılmıştır.
+  - Redis tabanlı önbellekleme 
     
 - **Frontend**  
   - React (Vite), Tailwind CSS, React Router v6  
