@@ -1,0 +1,73 @@
+name: Build (Backend JAR + Client Dist)
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+
+env:
+  BACKEND_DIR: backend
+  FRONTEND_DIR: client
+
+jobs:
+  backend-build:
+    name: Backend (Maven)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.BACKEND_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Make mvnw executable (if present)
+        run: chmod +x mvnw || true
+
+      - name: Build JAR (skip tests)
+        run: |
+          ./mvnw -B -DskipTests clean package || mvn -B -DskipTests clean package
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: ${{ env.BACKEND_DIR }}/target/*.jar
+          if-no-files-found: error
+          retention-days: 7
+
+  frontend-build:
+    name: Client (Vite/React)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.FRONTEND_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            ${{ env.FRONTEND_DIR }}/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload client artifact (dist)
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-dist
+          path: ${{ env.FRONTEND_DIR }}/dist/**/*
+          if-no-files-found: error
+          retention-days: 7
