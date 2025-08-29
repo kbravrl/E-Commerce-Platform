@@ -1,0 +1,67 @@
+name: Release (Backend JAR + Client Dist)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  BACKEND_DIR: backend
+  FRONTEND_DIR: client
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # === Backend (Maven) ===
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build backend
+        working-directory: ${{ env.BACKEND_DIR }}
+        run: |
+          chmod +x mvnw || true
+          ./mvnw -B -DskipTests clean package || mvn -B -DskipTests clean package
+
+      - name: Collect backend artifact
+        run: |
+          mkdir -p out
+          cp ${{ env.BACKEND_DIR }}/target/*.jar out/
+
+      # === Client (Vite/React) ===
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ${{ env.FRONTEND_DIR }}/package-lock.json
+
+      - name: Install & Build client
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          npm ci
+          npm run build
+
+      - name: Archive client dist
+        run: |
+          cd ${{ env.FRONTEND_DIR }}
+          zip -r ../out/client-dist.zip dist
+          cd -
+
+      # === GitHub Release ===
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            out/*.jar
+            out/client-dist.zip
+          generate_release_notes: true
