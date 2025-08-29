@@ -6,7 +6,7 @@ export default function useLowStockAlerts () {
 
   useEffect(() => {
     const stompClient = new Client({
-      webSocketFactory: () => new WebSocket(import.meta.env.VITE_WS_URL),
+      webSocketFactory: () => new WebSocket("ws://localhost:9191/ws"),
       reconnectDelay: 3000,
       debug: (msg) => console.log(msg),
       onConnect: () => {
